@@ -25,6 +25,7 @@ from Problem_Setting import *
 import numpy as np
 from SurfacePoint_numba import *
 from HyperSurfacePoint_numba import *
+import scipy.sparse as sp
 
 def local_support_fun(ELEMENTS, IND_mask, IND_mask_tot, U1, U2, U3, flag_scale):
     #- Local support definition
@@ -86,29 +87,30 @@ def ls_2d_numba(IND_mask_tot, IND_mask, u1, u2, U1, U2, p1_temp, p2_temp, n1_tem
         BF_Support[ind, k] = SurfacePoint_fun_numba(u, n1_temp, p1_temp, U1, v, n2_temp, p2_temp, U2, P_rho_aux, w, 0)
     return local_Support, BF_Support, IND_mask_active
 
-@njit
+#@njit
 def ls_3d_numba(IND_mask_tot, IND_mask, u1, u2, u3, U1, U2, U3, p1_temp, p2_temp, p3_temp, n1_temp, n2_temp, n3_temp):
-    IND_mask_temp = [[IND_mask[i,j] for j in range(len(IND_mask[i]))] for i in range(len(IND_mask))]
-    BF_Support = np.zeros((len(u1), len(IND_mask_tot)))
-    IND_mask_active = []
-    local_Support = []
+    IND_mask_temp = IND_mask.flatten()
+    #BF_Support = np.zeros((len(u1), len(IND_mask_tot)), dtype=np.float32)
+    BF_Support = sp.lil_array((len(u1),len(IND_mask_tot)),dtype=float)
+    IND_mask_active = np.array((0,), dtype=np.uint)
+    local_Support = np.array((0,), dtype=np.uint)
 
     # - For each CP of the model (active and inactive):
     # - stock in local_support list the indexes of the elements which are into the LS
     # - stock in IND_mask_active the index related to the active CP, considering the totality of CP
     for k in range(len(IND_mask_tot)):
-        IND_mask_tot_temp = [IND_mask_tot[k,i] for i in range(len(IND_mask_tot[k]))]
-        b1 = np.logical_or(np.logical_and(u1 < U1[IND_mask_tot[k, 0] + p1_temp + 1],u1 >= U1[IND_mask_tot[k, 0]]),u1 == U1[IND_mask_tot[k, 0] + p1_temp + 1])
-        b2 = np.logical_or(np.logical_and(u2 < U2[IND_mask_tot[k, 1] + p2_temp + 1],u2 >= U2[IND_mask_tot[k, 1]]),u2 == U2[IND_mask_tot[k, 1] + p2_temp + 1])
-        b3 = np.logical_or(np.logical_and(u3 < U3[IND_mask_tot[k, 2] + p3_temp + 1],u3 >= U3[IND_mask_tot[k, 2]]),u3 == U3[IND_mask_tot[k, 2] + p3_temp + 1])
+        IND_mask_tot_temp = IND_mask_tot[k,:].flatten()
+        b1 = np.logical_or(np.logical_and(u1 < U1[IND_mask_tot[k, 0] + p1_temp + 1]  ,  u1 >= U1[IND_mask_tot[k, 0]]),  u1 == U1[IND_mask_tot[k, 0] + p1_temp + 1])
+        b2 = np.logical_or(np.logical_and(u2 < U2[IND_mask_tot[k, 1] + p2_temp + 1]  ,  u2 >= U2[IND_mask_tot[k, 1]]),  u2 == U2[IND_mask_tot[k, 1] + p2_temp + 1])
+        b3 = np.logical_or(np.logical_and(u3 < U3[IND_mask_tot[k, 2] + p3_temp + 1]  ,  u3 >= U3[IND_mask_tot[k, 2]]),  u3 == U3[IND_mask_tot[k, 2] + p3_temp + 1])
         #TODO
         contr = np.logical_and(np.logical_and(b1,b2),b3)
         #contr = np.logical_and(b1, b2, b3)
         ind = np.where(contr == np.array(True, np.bool_))[0]
 
         if IND_mask_tot_temp in IND_mask_temp:
-            IND_mask_active.append(k)
-            local_Support.append(list(ind))
+            np.append(IND_mask_active, k)
+            np.append(local_Support, ind)
 
         # Evaluate Basis Function product of elements belonging to the local support (try on all the elements belonging to LS)
         P_rho_aux = np.zeros((n1_temp + 1, n2_temp + 1, n3_temp + 1))
