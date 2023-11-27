@@ -4,10 +4,12 @@ import numpy as np
 import requests
 import os
 from local_Support_mM import *
+import hash_tools as ht
 
 size=30
 size_str=str(size)
 filename=2*(size_str + "x")+ size_str + ".npz"
+hashfile="hash"+size_str+".dat"
 
 if not os.path.exists(filename):
     if (size == 30):
@@ -35,5 +37,14 @@ U2 = data['U2']
 U3 = data['U3']
 
 local_support, BF_support, IND_mask_active = local_support_fun(ELEMENTS, IND_mask, IND_mask_tot, U1, U2, U3, 'standard')
-#np.savetxt('Bf_support.dat',BF_support)
+
+local_support_hash = ht.hash(local_support)
+BF_support_hash = ht.hash(BF_support)
+IND_mask_active_hash = ht.hash(IND_mask_active)
+
+print("=== VALIDATION:")
+with open(hashfile, 'r') as file:
+    for array_hash in [local_support_hash, BF_support_hash, IND_mask_active_hash]:
+        print( array_hash == file.readline().strip() )
+print("===")
 
