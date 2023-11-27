@@ -1,15 +1,32 @@
+#!/usr/bin/env python3
 
 import numpy as np 
+import requests
+import os
 from local_Support_mM import *
 
 size=30
-filename_prefix="./NPZ/"
-filename_extension=".npz"
-
 size_str=str(size)
-filename= 2*(size_str + "x") + str(size)
+filename=2*(size_str + "x")+ size_str + ".npz"
 
-data = np.load(filename_prefix+filename+filename_extension)
+if not os.path.exists(filename):
+    if (size == 30):
+        url = "https://drive.google.com/uc?export=download&id=1x2chwlaU1CAVvV_2n44eAsBAoPXRtMTH&confirm=t"
+    elif (size == 60):
+        url = "https://drive.google.com/uc?export=download&id=1oZcU0eCD9naiIyWGoX2pUNK5OaR4QyWy&confirm=t"
+    elif (size == 100):
+        url = "https://drive.google.com/uc?export=download&id=1i0pPRIxCvnr76J8Z57A322bWX0bxOoZ6&confirm=t"
+    else:
+        raise ValueError("Unavailable size " + size_str)
+
+    print("Downloading", filename)
+    print("...")
+    request = requests.get(url, allow_redirects="True")
+    with open(filename, 'wb') as file:
+        file.write(request.content)
+    print("Done.")
+
+data = np.load(filename)
 ELEMENTS = data['ELEMENTS']
 IND_mask = data['IND_mask']
 IND_mask_tot = data['IND_mask_tot']
