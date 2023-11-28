@@ -23,28 +23,9 @@ def HyperSurfacePoint_fun_numba(n1, p, U1, n2, q, U2, n3, r, U3, P, w, u1, u2, u
         #right = np.zeros(p + 1)
         bf = np.zeros((p + 1), dtype=np.float32) #TODO
         left = np.zeros((p + 1), dtype=np.float32) #TODO
-        right = np.zeros((p + 1), dtype=np.float32) #TODO
+        right = np.zeros((p + 1), dtype=np.float32) #TODO       
         bf[0] = 1.0
-        span = 0
-        if pt == U[n + 1]:
-            span = n
-
-        elif pt <= U[p + 1]:
-            span = p
-
-        else:
-            low = p
-            high = n + 1
-            mid = int((high + low) / 2)
-
-            while (pt < U[mid] or pt >= U[mid + 1]):
-                if pt < U[mid]:
-                    high = mid
-                else:
-                    low = mid
-                mid = int((low + high) / 2)
-            span = mid
-
+        span = np.searchsorted(U, pt, side='right') - 1
         for j in range(1, p + 1):
             left[j] = pt - U[span + 1 - j]
             right[j] = U[span + j] - pt
