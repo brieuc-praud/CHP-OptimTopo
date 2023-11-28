@@ -57,10 +57,11 @@ def local_support_fun(ELEMENTS, IND_mask, IND_mask_tot, U1, U2, U3, flag_scale):
 
     return local_Support, BF_Support, IND_mask_active
 
-@njit
+#@njit
 def ls_2d_numba(IND_mask_tot, IND_mask, u1, u2, U1, U2, p1_temp, p2_temp, n1_temp, n2_temp):
     IND_mask_temp = [[IND_mask[i,j] for j in range(len(IND_mask[i]))] for i in range(len(IND_mask))]
-    BF_Support = np.zeros((len(u1), len(IND_mask_tot)))
+   #BF_Support = np.zeros((len(u1), len(IND_mask_tot)))
+    BF_Support = sp.lil_matrix((len(u1),len(IND_mask_tot)),dtype=float)
     IND_mask_active = []
     local_Support = []
 
