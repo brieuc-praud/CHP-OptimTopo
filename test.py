@@ -3,6 +3,7 @@
 import numpy as np 
 import requests
 import os
+import warnings
 from local_Support_mM import *
 import hash_tools as ht
 
@@ -38,13 +39,24 @@ U3 = data['U3']
 
 local_support, BF_support, IND_mask_active = local_support_fun(ELEMENTS, IND_mask, IND_mask_tot, U1, U2, U3, 'standard')
 
+
+print("=== VALIDATION:")
 local_support_hash = ht.hash(local_support)
 BF_support_hash = ht.hash(BF_support)
 IND_mask_active_hash = ht.hash(IND_mask_active)
 
-print("=== VALIDATION:")
-with open(hashfile, 'r') as file:
-    for array_hash in [local_support_hash, BF_support_hash, IND_mask_active_hash]:
-        print( array_hash == file.readline().strip() )
+if os.path.exists(hashfile):
+    with open(hashfile, 'r') as file:
+        for array_hash, varname in zip([local_support_hash, BF_support_hash, IND_mask_active_hash], ["local_support", "BF_support", "IND_mask_active"]):
+            print( array_hash )
+            # Test if one hash fits
+            validated = False
+            for h in file.readline().strip().split():
+                validated |= (array_hash == h)
+            if (validated):
+                print(varname, "->", "\033[92mPASS\033[0m")
+            else:
+                print(varname, "->", "\033[91mFAIL\033[0m")
+else:
+    warnings.warn("No test available for size "+size_str)
 print("===")
-
