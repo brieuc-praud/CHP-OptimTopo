@@ -88,7 +88,7 @@ def ls_2d_numba(IND_mask_tot, IND_mask, u1, u2, U1, U2, p1_temp, p2_temp, n1_tem
         BF_Support[ind, k] = SurfacePoint_fun_numba(u, n1_temp, p1_temp, U1, v, n2_temp, p2_temp, U2, P_rho_aux, w, 0)
     return local_Support, BF_Support, IND_mask_active
 
-@njit
+#@njit
 def ls_3d_numba(IND_mask_tot, IND_mask, u1, u2, u3, U1, U2, U3, p1_temp, p2_temp, p3_temp, n1_temp, n2_temp, n3_temp):
     IND_mask_temp = [[IND_mask[i,j] for j in range(len(IND_mask[i]))] for i in range(len(IND_mask))]
     #BF_Support = np.zeros((len(u1), len(IND_mask_tot)))
