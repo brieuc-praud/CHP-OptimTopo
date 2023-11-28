@@ -27,6 +27,7 @@ import scipy.sparse as sp
 from SurfacePoint_numba import *
 from HyperSurfacePoint_numba import *
 import pandas as pd
+import time
 
 def local_support_fun(ELEMENTS, IND_mask, IND_mask_tot, U1, U2, U3, flag_scale):
     #- Local support definition
@@ -68,6 +69,9 @@ def ls_2d_numba(IND_mask_tot, IND_mask, u1, u2, U1, U2, p1_temp, p2_temp, n1_tem
     # - For each CP of the model (active and inactive):
     # - stock in local_support list the indexes of the elements which are into the LS
     # - stock in IND_mask_active the index related to the active CP, considering the totality of CP
+
+    temps_debut = time.time()
+
     for k in range(len(IND_mask_tot)):
         IND_mask_tot_temp = [IND_mask_tot[k,i] for i in range(len(IND_mask_tot[k]))]
         b1 = np.logical_or(np.logical_and(u1 < U1[IND_mask_tot[k, 0] + p1_temp + 1], u1 >= U1[IND_mask_tot[k, 0]]), u1 == U1[IND_mask_tot[k, 0] + p1_temp + 1])
@@ -86,6 +90,11 @@ def ls_2d_numba(IND_mask_tot, IND_mask, u1, u2, U1, U2, p1_temp, p2_temp, n1_tem
         v = u2[ind].reshape((len(ind), 1))
         w = np.ones((n1_temp + 1, n2_temp + 1))
         BF_Support[ind, k] = SurfacePoint_fun_numba(u, n1_temp, p1_temp, U1, v, n2_temp, p2_temp, U2, P_rho_aux, w, 0)
+
+    temps_fin = time.time()
+    temps_ecoule = temps_fin - temps_debut
+    print("Temps écoulé : {:.3f} secondes".format(temps_ecoule))
+
     return local_Support, BF_Support, IND_mask_active
 
 #@njit
@@ -96,6 +105,7 @@ def ls_3d_numba(IND_mask_tot, IND_mask, u1, u2, u3, U1, U2, U3, p1_temp, p2_temp
     IND_mask_active = []
     local_Support = []
 
+    temps_debut = time.time()
     # - For each CP of the model (active and inactive):
     # - stock in local_support list the indexes of the elements which are into the LS
     # - stock in IND_mask_active the index related to the active CP, considering the totality of CP
@@ -121,4 +131,9 @@ def ls_3d_numba(IND_mask_tot, IND_mask, u1, u2, u3, U1, U2, U3, p1_temp, p2_temp
         w = u3[ind].reshape((len(ind), 1, 1))
         w_t = np.ones((n1_temp + 1, n2_temp + 1, n3_temp + 1))
         BF_Support[ind, k] = HyperSurfacePoint_fun_numba(n1_temp, p1_temp, U1, n2_temp, p2_temp, U2, n3_temp, p3_temp, U3, P_rho_aux, w_t, u, v, w, 0)
+    
+    temps_fin = time.time()
+    temps_ecoule = temps_fin - temps_debut
+    print("Temps écoulé : {:.3f} secondes".format(temps_ecoule))
+
     return local_Support, BF_Support, IND_mask_active
