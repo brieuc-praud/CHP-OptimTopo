@@ -9,7 +9,7 @@ import re
 import hash_tools as ht
 
 # Set test size
-size=30
+size=100
 
 
 settings_file = "Problem_Setting.py"
@@ -26,7 +26,7 @@ elif (size == 60):
     n1, n2, n3 = 39, 39, 39
 elif (size == 100):
     url = "https://drive.google.com/uc?export=download&id=1i0pPRIxCvnr76J8Z57A322bWX0bxOoZ6&confirm=t"
-    n1, n2, n3 = 59, 59, 59
+    n1, n2, n3 = 69, 69, 69
 else:
     raise ValueError("Unavailable size " + size_str)
 
