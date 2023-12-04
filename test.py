@@ -6,11 +6,10 @@ import os
 import warnings
 import re
 
-from local_Support_mM import *
 import hash_tools as ht
 
 # Set test size
-size=30
+size=60
 
 
 settings_file = "Problem_Setting.py"
@@ -60,6 +59,7 @@ U2 = data['U2']
 U3 = data['U3']
 
 
+from local_Support_mM import *
 # Do the computation
 local_support, BF_support, IND_mask_active = local_support_fun(ELEMENTS, IND_mask, IND_mask_tot, U1, U2, U3, 'standard')
 
@@ -84,4 +84,7 @@ if os.path.exists(hashfile):
                 print(varname, "->", "\033[91mFAIL\033[0m")
 else:
     warnings.warn("No test available for size "+size_str)
+    for array_hash, varname in zip([local_support_hash, BF_support_hash, IND_mask_active_hash], ["local_support", "BF_support", "IND_mask_active"]):
+        print(varname)
+        print(array_hash)
 print("===")

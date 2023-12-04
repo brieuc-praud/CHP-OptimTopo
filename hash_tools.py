@@ -14,7 +14,14 @@ def hash(array):
         else:
             to_hash = numpy.array(array)
     elif scipy.sparse.issparse(array):
-        to_hash = array.todense()
+        concat = []
+        concat += array.shape
+        concat += [array.nnz]
+        for sublist in array.data:
+            concat += sublist
+        for sublist in array.rows:
+            concat += sublist
+        to_hash = numpy.array(concat)
     elif isinstance(array, numpy.ndarray):
         to_hash = array
     else:
