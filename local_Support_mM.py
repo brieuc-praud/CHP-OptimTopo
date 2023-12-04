@@ -92,7 +92,7 @@ def ls_2d_numba(IND_mask_tot, IND_mask, u1, u2, U1, U2, p1_temp, p2_temp, n1_tem
 
 def ls_3d_numba(IND_mask_tot, IND_mask, u1, u2, u3, U1, U2, U3, p1_temp, p2_temp, p3_temp, n1_temp, n2_temp, n3_temp):
     IND_mask_temp = [[IND_mask[i,j] for j in range(len(IND_mask[i]))] for i in range(len(IND_mask))]
-    BF_Support = sp.lil_matrix((len(u1),len(IND_mask_tot)),dtype=float)
+    BF_Support = sp.lil_matrix((len(u1),len(IND_mask_tot)),dtype=np.float64)
     IND_mask_active = []
     local_Support = []
 
