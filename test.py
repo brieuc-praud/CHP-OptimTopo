@@ -9,14 +9,14 @@ import re
 import hash_tools as ht
 
 # Set test size
-size=60
+size=30
 
 
 settings_file = "Problem_Setting.py"
 
 size_str=str(size)
 filename=2*(size_str + "x")+ size_str + ".npz"
-hashfile="hash"+size_str+".dat"
+hashfile="hash/hash"+size_str+".dat"
 
 if (size == 30):
     url = "https://drive.google.com/uc?export=download&id=1x2chwlaU1CAVvV_2n44eAsBAoPXRtMTH&confirm=t"
