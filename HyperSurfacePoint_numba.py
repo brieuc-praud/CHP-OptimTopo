@@ -37,8 +37,11 @@ def HyperSurfacePoint_fun_numba(n1, p, U1, n2, q, U2, n3, r, U3, P, w, u1, u2, u
                 #temp = bf[r] / (right[r + 1] + left[j - r])
                 #bf[r] = saved + right[r + 1] * temp
                 #saved = left[j - r] * temp
+            temp[0] = bf[0] / (right[1] + left[j])
+            for r in range(j-1):
+                temp(r+1) = 
             #temp[0:j] = bf[0:j]/(right[r+1] + left[j-r]) for r in range(j)
-            temp = bf[0:j]/(np.array([right[r+1] for r in range(j)]) + np.array([left[j-r] for r in range(j)])) # + et 1/ et la compréhension de boucles sont optimisées
+            #temp = bf[0:j]/(np.array([right[r+1] for r in range(j)]) + np.array([left[j-r] for r in range(j)])) # + et 1/ et la compréhension de boucles sont optimisées
             saved[1:j+1] = np.array([left[j-r] for r in range(j)]) * temp #on change l'ordre car bf utilise le saved d'avant dans la boucle ; saved[1:j+1] car on veut garder le premier 0
             bf[0:j] = saved[0:j] + np.array([right[r+1] for r in range(j)]) * temp #saved[0:j] car saved d'avant
             
