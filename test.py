@@ -6,6 +6,9 @@ import os
 import warnings
 from local_Support_mM import *
 import hash_tools as ht
+import time
+
+t0 = time.perf_counter()
 
 size=30
 size_str=str(size)
@@ -60,3 +63,7 @@ if os.path.exists(hashfile):
 else:
     warnings.warn("No test available for size "+size_str)
 print("===")
+
+
+print('')
+print(time.perf_counter()-t0)
