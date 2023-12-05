@@ -16,6 +16,7 @@
 import numpy as np
 from numba import njit
 
+
 #from Problem_Setting import *
 
 @njit
@@ -59,6 +60,9 @@ def SurfacePoint_fun_numba(u, n, p, U, v, m, q, V, P, w, NURBS):
                 N[r] = saved + right[r + 1] * temp
                 saved = left[j - r] * temp
             N[j] = saved
+
+
+
         return span, N
 
     def SurfacePoint_fun2(u, v, n, m, p, q, U, V, P, uspan, vspan, Nu, Nv):
@@ -68,8 +72,9 @@ def SurfacePoint_fun_numba(u, n, p, U, v, m, q, V, P, w, NURBS):
             temp = 0.0
             vind = int(vspan) - q + l
             for k in range(p + 1):
-                temp = temp + Nu[k] * P[uind + k, vind]
-            surf = surf + Nv[l] * temp
+                temp += Nu[k] * P[uind + k, vind]
+            
+            surf += Nv[l] * temp
         return surf
 
     size_u_r, size_u_c = np.shape(u)

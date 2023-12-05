@@ -13,6 +13,8 @@
 import numpy as np
 from numba import njit
 
+
+
 #from Problem_Setting import *
 
 @njit
@@ -54,7 +56,11 @@ def HyperSurfacePoint_fun_numba(n1, p, U1, n2, q, U2, n3, r, U3, P, w, u1, u2, u
                 temp = bf[r] / (right[r + 1] + left[j - r])
                 bf[r] = saved + right[r + 1] * temp
                 saved = left[j - r] * temp
+            
+        
             bf[j] = saved
+
+            
         return span, bf
 
     def HSurfacePoint_fun2(n1, p, U1, n2, q, U2, n3, r, U3, P, u1, u2, u3, u1span, u2span, u3span, Nu1, Nu2, Nu3):
@@ -68,9 +74,11 @@ def HyperSurfacePoint_fun_numba(n1, p, U1, n2, q, U2, n3, r, U3, P, w, u1, u2, u
                 temp = 0
                 u2ind = u2span - q + i2
                 for i1 in range(p + 1):
-                    temp = temp + Nu1[i1] * P[u1ind + i1, u2ind, u3ind]
-                S = S + Nu2[i2] * temp
-            hypersurf = hypersurf + Nu3[i3] * S
+                    temp +=Nu1[i1] * P[u1ind + i1, u2ind, u3ind]
+            
+                S += Nu2[i2]*temp
+
+            hypersurf += Nu3[i3] * S
         return hypersurf
 
     size_u_r, size_u_c, size_u_t = np.shape(u1)
@@ -83,6 +91,7 @@ def HyperSurfacePoint_fun_numba(n1, p, U1, n2, q, U2, n3, r, U3, P, w, u1, u2, u
                 u1span, nu1 = find_span_basis(u1[i, 0, 0], p, n1, U1)
                 u2span, nu2 = find_span_basis(u2[i, 0, 0], q, n2, U2)
                 u3span, nu3 = find_span_basis(u3[i, 0, 0], r, n3, U3)
+
                 S_cp = HSurfacePoint_fun2(n1, p, U1, n2, q, U2, n3, r, U3, P_w, u1[i, 0, 0], u2[i, 0, 0], u3[i, 0, 0],
                                           u1span, u2span, u3span, nu1, nu2, nu3)
                 hs_w = HSurfacePoint_fun2(n1, p, U1, n2, q, U2, n3, r, U3, w, u1[i, 0, 0], u2[i, 0, 0], u3[i, 0, 0],
