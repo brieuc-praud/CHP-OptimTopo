@@ -33,20 +33,11 @@ def HyperSurfacePoint_fun_numba(n1, p, U1, n2, q, U2, n3, r, U3, P, w, u1, u2, u
             saved = np.zeros(shape=(j+1))
             temp = np.zeros(shape=(j))
 
-            #for r in range(j):
-                #temp = bf[r] / (right[r + 1] + left[j - r])
-                #bf[r] = saved + right[r + 1] * temp
-                #saved = left[j - r] * temp
-            temp[0] = bf[0] / (right[1] + left[j])
-
-            #temp[0:j] = bf[0:j]/(right[r+1] + left[j-r]) for r in range(j)
-            #temp = bf[0:j]/(np.array([right[r+1] for r in range(j)]) + np.array([left[j-r] for r in range(j)])) # + et 1/ et la compréhension de boucles sont optimisées
+            temp = bf[0:j]/(np.array([right[r+1] for r in range(j)]) + np.array([left[j-r] for r in range(j)])) # + et 1/ et la compréhension de boucles sont optimisées ; temp est défini par bf comme il est avant la nouvelle itération de la boucle, temp peut donc être calculé indépendamment de l'actualisaion de bf et de saved
             saved[1:j+1] = np.array([left[j-r] for r in range(j)]) * temp #on change l'ordre car bf utilise le saved d'avant dans la boucle ; saved[1:j+1] car on veut garder le premier 0
             bf[0:j] = saved[0:j] + np.array([right[r+1] for r in range(j)]) * temp #saved[0:j] car saved d'avant
             
-            
-
-            bf[j] = saved[j+1]
+            bf[j] = saved[j]
         return span, bf
 
     def HSurfacePoint_fun2(n1, p, U1, n2, q, U2, n3, r, U3, P, u1, u2, u3, u1span, u2span, u3span, Nu1, Nu2, Nu3):
