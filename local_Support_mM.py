@@ -26,6 +26,7 @@ import numpy as np
 import scipy.sparse as sp
 from SurfacePoint_numba import *
 from HyperSurfacePoint_numba import *
+from tqdm import tqdm
 
 def local_support_fun(ELEMENTS, IND_mask, IND_mask_tot, U1, U2, U3, flag_scale):
     #- Local support definition
@@ -99,7 +100,7 @@ def ls_3d_numba(IND_mask_tot, IND_mask, u1, u2, u3, U1, U2, U3, p1_temp, p2_temp
     # - For each CP of the model (active and inactive):
     # - stock in local_support list the indexes of the elements which are into the LS
     # - stock in IND_mask_active the index related to the active CP, considering the totality of CP
-    for k in range(len(IND_mask_tot)):
+    for k in tqdm(range(len(IND_mask_tot))):
         IND_mask_tot_temp = [IND_mask_tot[k,i] for i in range(len(IND_mask_tot[k]))]
         b1 = np.logical_or(np.logical_and(u1 < U1[IND_mask_tot[k, 0] + p1_temp + 1],u1 >= U1[IND_mask_tot[k, 0]]),u1 == U1[IND_mask_tot[k, 0] + p1_temp + 1])
         b2 = np.logical_or(np.logical_and(u2 < U2[IND_mask_tot[k, 1] + p2_temp + 1],u2 >= U2[IND_mask_tot[k, 1]]),u2 == U2[IND_mask_tot[k, 1] + p2_temp + 1])
