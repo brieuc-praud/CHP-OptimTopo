@@ -29,7 +29,11 @@ def HyperSurfacePoint_fun_numba(n1, p, U1, n2, q, U2, n3, r, U3, P, w, u1, u2, u
         for j in range(1, p + 1):
             left[j] = pt - U[span + 1 - j]
             right[j] = U[span + j] - pt
-            #saved = 0.0
+            
+            #////////////////////////
+            #Ici boulce for sur j transformée en produit vecteurs numpy
+            #Speed-up intéressant dès p = 25, speed-up semble stagner à 2 ( testé jusqu'à p = 5 000, fichier spd-up.py )
+            #\\\\\\\\\\\\\\\\\\\\\\\\
             saved = np.zeros(shape=(j+1))
             temp = np.zeros(shape=(j))
 
