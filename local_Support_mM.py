@@ -124,12 +124,12 @@ def ls_3d_numba(IND_mask_tot, IND_mask, u1, u2, u3, U1, U2, U3, p1_temp, p2_temp
             local_Support.append(list(ind))
 
         # Evaluate Basis Function product of elements belonging to the local support (try on all the elements belonging to LS)
-        P_rho_aux = np.zeros((n1_temp + 1, n2_temp + 1, n3_temp + 1))
+        P_rho_aux = np.zeros((n1_temp + 1, n2_temp + 1, n3_temp + 1),dtype=np.float32)
         P_rho_aux[IND_mask_tot[k, 0], IND_mask_tot[k, 1], IND_mask_tot[k, 2]] = 1
         u = u1[ind].reshape((len(ind), 1, 1))
         v = u2[ind].reshape((len(ind), 1, 1))
         w = u3[ind].reshape((len(ind), 1, 1))
-        w_t = np.ones((n1_temp + 1, n2_temp + 1, n3_temp + 1))
+        w_t = np.ones((n1_temp + 1, n2_temp + 1, n3_temp + 1),dtype=np.float32)
         BF_Support[ind, k] = HyperSurfacePoint_fun_numba(n1_temp, p1_temp, U1, n2_temp, p2_temp, U2, n3_temp, p3_temp, U3, P_rho_aux, w_t, u, v, w, 0)
     
     temps_fin = time.time()
