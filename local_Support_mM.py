@@ -117,8 +117,10 @@ def ls_3d_numba(IND_mask_tot, IND_mask, u1, u2, u3, U1, U2, U3, p1_temp, p2_temp
         b2 = np.logical_or(np.logical_and(u2 < U2[IND_mask_tot[k, 1] + p2_temp + 1],u2 >= U2[IND_mask_tot[k, 1]]),u2 == U2[IND_mask_tot[k, 1] + p2_temp + 1])
         b3 = np.logical_or(np.logical_and(u3 < U3[IND_mask_tot[k, 2] + p3_temp + 1],u3 >= U3[IND_mask_tot[k, 2]]),u3 == U3[IND_mask_tot[k, 2] + p3_temp + 1])
         #TODO
-        contr = np.logical_and(np.logical_and(b1,b2),b3)
         #contr = np.logical_and(b1, b2, b3)
+        #contr = np.logical_and(np.logical_and(b1,b2),b3)
+        contr = np.all([b1, b2, b3], axis=0) #combinaison des masks avec une opération logique all
+        
         ind = np.where(contr == np.array(True, np.bool_))[0]
 
         if IND_mask_tot_temp in IND_mask_temp:
