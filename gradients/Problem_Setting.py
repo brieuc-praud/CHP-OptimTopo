@@ -316,3 +316,5 @@ op_dir = os.path.join(WD, OP, problem_name)
 # Computation of Symmetry coefficient:
 sym_coef = symmetry_coef_fun (DIM, SYMMETRY_xy , SYMMETRY_xz, SYMMETRY_yz)
 #--------------------------------------------------------------------------
+# Shepard = false
+flag_shepard = 0
