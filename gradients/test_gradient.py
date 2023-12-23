@@ -31,3 +31,6 @@ local_support, BF_support, IND_mask_active = local_support_fun(ELEMENTS, IND_mas
 grad_c_T = compliance_grad_fun(rho_e, P_rho, W, ELEMENTS, IND_mask, local_support, BF_support, IND_mask_tot, IND_mask_active, scale) 
 
 grad_v = volume_grad_fun(rho_e, P_rho, W, ELEMENTS, IND_mask, local_support, BF_support, IND_mask_tot, IND_mask_active, scale)
+
+
+
