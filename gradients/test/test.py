@@ -39,14 +39,14 @@ grad_v_csr = volume_grad_fun_csr(rho_e, P_rho, W, ELEMENTS, IND_mask, local_supp
 
 # Comparaison résultats
 if np.allclose(grad_c_T, grad_c_T_csr):
-    print("Les résultats de grad_c_T et grad_c_T_csr sont identiques.")
+    print("TEST VALIDE : Les résultats de grad_c_T et grad_c_T_csr sont identiques.")
 else:
-    print("Les résultats de grad_c_T et grad_c_T_csr ne sont pas identiques.")
+    print("TEST NON VALIDE : Les résultats de grad_c_T et grad_c_T_csr ne sont pas identiques.")
 
 if np.allclose(grad_v, grad_v_csr):
-    print("Les résultats de grad_v et grad_v_csr sont identiques.")
+    print("TEST VALIDE : Les résultats de grad_v et grad_v_csr sont identiques.")
 else:
-    print("Les résultats de grad_v et grad_v_csr ne sont pas identiques.")
+    print("TEST NON VALIDE : Les résultats de grad_v et grad_v_csr ne sont pas identiques.")
 
 os.chdir(current_dir)
 
