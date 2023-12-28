@@ -190,6 +190,8 @@ def compliance_grad_fun(rho_e, P_rho, W, ELEMENTS, IND_mask, local_support, BF_s
                         grad_C_coef_w = np.zeros((size_grad_C,len(IND_mask)),'f')
                         for a in range(3):
                             c_vec_micro_temp = c_vec_micro[BF_mask,a].reshape((len(BF_mask),1))
+
+
                             grad_C_coef_cp[a,:] = np.sum(sym_coef*p_c*c_vec_micro_temp*der_CP/(a1*a2*rho_e[BF_mask]),axis=0)
                             grad_C_coef_w[a,:] = np.sum(sym_coef*p_c*c_vec_micro_temp*der_W/(a1*a2*rho_e[BF_mask]),axis=0)                        
                         cont = 1
@@ -199,6 +201,7 @@ def compliance_grad_fun(rho_e, P_rho, W, ELEMENTS, IND_mask, local_support, BF_s
                                 grad_C_coef_cp[a+cont,:] = np.sum(sym_coef*p_c*comp_temp*der_CP/(2*a1*a2*rho_e[BF_mask]),axis=0)   
                                 grad_C_coef_w[a+cont,:] = np.sum(sym_coef*p_c*comp_temp*der_W/(2*a1*a2*rho_e[BF_mask]),axis=0)
                                 cont += 1
+                        
                         
                         # 3 - Derivatives of the Macro scale Compliance respecting to micro scale design variables                                                             
                         if flag_scale == 'micro':
