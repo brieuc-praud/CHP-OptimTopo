@@ -35,9 +35,11 @@ grad_c_T = compliance_grad_fun(rho_e, P_rho, W, ELEMENTS, IND_mask, local_suppor
 grad_v = volume_grad_fun(rho_e, P_rho, W, ELEMENTS, IND_mask, local_support, BF_support, IND_mask_tot, IND_mask_active, scale)
 
 # Calculez les résultats avec les fonctions CSR
-grad_c_T_csr = compliance_grad_fun_csr(rho_e, P_rho, W, ELEMENTS, IND_mask, local_support, BF_support, IND_mask_tot, IND_mask_active, scale)
-grad_v_csr = volume_grad_fun_csr(rho_e, P_rho, W, ELEMENTS, IND_mask, local_support, BF_support, IND_mask_tot, IND_mask_active, scale)
-#et local function csr aussi
+local_support_csr, BF_support_csr, IND_mask_active_csr = local_support_fun_csr(ELEMENTS, IND_mask, IND_mask_tot, U1, U2, U3, scale)
+grad_c_T_csr = compliance_grad_fun_csr(rho_e, P_rho, W, ELEMENTS, IND_mask, local_support, BF_support, IND_mask_tot, IND_mask_active, scale)#mettre csr devant quand compliance csr faite
+grad_v_csr = volume_grad_fun_csr(rho_e, P_rho, W, ELEMENTS, IND_mask, local_support_csr, BF_support_csr, IND_mask_tot, IND_mask_active_csr, scale)
+
+
 
 # Comparaison résultats
 if np.allclose(grad_c_T, grad_c_T_csr):
@@ -49,6 +51,12 @@ if np.allclose(grad_v, grad_v_csr):
     print("TEST VALIDE : Les résultats de grad_v et grad_v_csr sont identiques.")
 else:
     print("TEST NON VALIDE : Les résultats de grad_v et grad_v_csr ne sont pas identiques.")
+
+if np.allclose(local_support, local_support_csr) and np.allclose(BF_support, BF_support_csr) and np.allclose(IND_mask_active, IND_mask_active_csr) :
+    print("TEST VALIDE : Les résultats de local_support_fun sont identiques.")
+else:
+    print("TEST NON VALIDE : Les résultats de local_support_fun ne sont pas identiques.")
+
 
 os.chdir(current_dir)
 
