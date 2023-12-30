@@ -28,7 +28,7 @@ from Problem_Setting import *
 from SurfacePoint_numba import *
 from HyperSurfacePoint_numba import *
 
-def local_support_fun(ELEMENTS, IND_mask, IND_mask_tot, U1, U2, U3, flag_scale):
+def local_support_fun_csr(ELEMENTS, IND_mask, IND_mask_tot, U1, U2, U3, flag_scale):
     #- Local support definition
     if flag_scale == 'micro_macro':
         p1_temp = p1M;
@@ -48,18 +48,18 @@ def local_support_fun(ELEMENTS, IND_mask, IND_mask_tot, U1, U2, U3, flag_scale):
     if DIM == 2:
         u1 = ELEMENTS[:, 11]
         u2 = ELEMENTS[:, 12]
-        local_Support, BF_Support, IND_mask_active = ls_2d_numba(IND_mask_tot, IND_mask, u1, u2, U1, U2, p1_temp, p2_temp, n1_temp, n2_temp)
+        local_Support, BF_Support, IND_mask_active = ls_2d_numba_csr(IND_mask_tot, IND_mask, u1, u2, U1, U2, p1_temp, p2_temp, n1_temp, n2_temp)
             
     elif DIM == 3:
         u1 = ELEMENTS[:, 14]
         u2 = ELEMENTS[:, 15]
         u3 = ELEMENTS[:, 16]
-        local_Support, BF_Support, IND_mask_active = ls_3d_numba(IND_mask_tot, IND_mask, u1, u2, u3, U1, U2, U3, p1_temp, p2_temp, p3_temp, n1_temp, n2_temp, n3_temp)
+        local_Support, BF_Support, IND_mask_active = ls_3d_numba_csr(IND_mask_tot, IND_mask, u1, u2, u3, U1, U2, U3, p1_temp, p2_temp, p3_temp, n1_temp, n2_temp, n3_temp)
 
     return local_Support, BF_Support, IND_mask_active
 
 #@njit
-def ls_2d_numba(IND_mask_tot, IND_mask, u1, u2, U1, U2, p1_temp, p2_temp, n1_temp, n2_temp):
+def ls_2d_numba_csr(IND_mask_tot, IND_mask, u1, u2, U1, U2, p1_temp, p2_temp, n1_temp, n2_temp):
     IND_mask_temp = [[IND_mask[i,j] for j in range(len(IND_mask[i]))] for i in range(len(IND_mask))]
    #BF_Support = np.zeros((len(u1), len(IND_mask_tot)))
     BF_Support = sp.lil_matrix((len(u1),len(IND_mask_tot)),dtype=float)
@@ -90,7 +90,7 @@ def ls_2d_numba(IND_mask_tot, IND_mask, u1, u2, U1, U2, p1_temp, p2_temp, n1_tem
     return local_Support, BF_Support, IND_mask_active
 
 
-def ls_3d_numba(IND_mask_tot, IND_mask, u1, u2, u3, U1, U2, U3, p1_temp, p2_temp, p3_temp, n1_temp, n2_temp, n3_temp):
+def ls_3d_numba_csr(IND_mask_tot, IND_mask, u1, u2, u3, U1, U2, U3, p1_temp, p2_temp, p3_temp, n1_temp, n2_temp, n3_temp):
     IND_mask_temp = [[IND_mask[i,j] for j in range(len(IND_mask[i]))] for i in range(len(IND_mask))]
     BF_Support = sp.lil_matrix((len(u1),len(IND_mask_tot)),dtype=np.float64)
     IND_mask_active = []
