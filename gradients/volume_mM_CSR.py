@@ -115,7 +115,10 @@ def volume_grad_fun_csr(rho_e, P_rho, W, ELEMENTS, IND_mask, local_support, BF_s
                     BF_support_temp = shepard_support(BF_support_temp,shepard_dist)
                 
                 vol_temp = (ELEMENTS[:,12]).reshape((len(ELEMENTS),1))
-                grad_v= np.sum(sym_coef_temp*BF_support_temp*vol_temp,axis=0).reshape((len(IND_mask),1)) 
+                grad_v= np.sum((sym_coef_temp*BF_support_temp).toarray()*vol_temp,axis=0).reshape((len(IND_mask),1))
+                #juste pour voir :
+                print(np.shape(BF_support_temp.toarray()))
+
     #--------------------------------------------------------------------------
     else:
         grad_v=False
