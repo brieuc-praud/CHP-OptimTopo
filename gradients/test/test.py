@@ -52,7 +52,7 @@ if np.allclose(grad_v, grad_v_csr):
 else:
     print("TEST NON VALIDE : Les résultats de grad_v et grad_v_csr ne sont pas identiques.")
 
-if np.allclose(local_support, local_support_csr) and np.allclose(BF_support, BF_support_csr) and np.allclose(IND_mask_active, IND_mask_active_csr) :
+if np.allclose(local_support, local_support_csr) and np.allclose(BF_support, BF_support_csr.toarray()) and np.allclose(IND_mask_active, IND_mask_active_csr) :
     print("TEST VALIDE : Les résultats de local_support_fun sont identiques.")
 else:
     print("TEST NON VALIDE : Les résultats de local_support_fun ne sont pas identiques.")
