@@ -94,10 +94,12 @@ def volume_grad_fun_csr(rho_e, P_rho, W, ELEMENTS, IND_mask, local_support, BF_s
                 #juste pour voir :
                 print('BF_support_temp', np.shape(BF_support_temp), type(BF_support_temp), np.shape(BF_support_temp)[0], np.shape(BF_support_temp)[1], BF_support_temp[3,4])
                 print('vol_temp', np.shape(vol_temp), type(vol_temp), np.shape(vol_temp)[0], vol_temp[3,0])
+                lignes = np.shape(BF_support_temp)[0]
+                colonnes = np.shape(BF_support_temp)[1]
 
-                intermediar = sc.lil_matrix(np.shape(BF_support_temp)[0], np.shape(BF_support_temp)[1])
+                intermediar = sc.lil_matrix((lignes, colonnes))
                 print('intermediar', type(intermediar), np.shape(intermediar))
-                for i in range(np.shape(BF_support_temp)[0]):
+                for i in range(lignes):
                     intermediar[i,:] = vol_temp[i,0] * BF_support_temp[i,:]
                 #intermediar = BF_support_temp*vol_temp
                 #grad_v = np.sum(sym_coef_temp*BF_support_temp*vol_temp,axis=0).reshape((len(IND_mask),1))#np.sum outputs an np matrix even though lil/csr in argument, we want grad_v to not be lil/csr anymore because small enough
@@ -135,10 +137,13 @@ def volume_grad_fun_csr(rho_e, P_rho, W, ELEMENTS, IND_mask, local_support, BF_s
                 #juste pour voir :
                 print('BF_support_temp', np.shape(BF_support_temp), type(BF_support_temp), np.shape(BF_support_temp)[0], np.shape(BF_support_temp)[1], BF_support_temp[3,4])
                 print('vol_temp', np.shape(vol_temp), type(vol_temp), np.shape(vol_temp)[0], vol_temp[3,0])
-
-                intermediar = sc.lil_matrix(np.shape(BF_support_temp)[0], np.shape(BF_support_temp)[1])
-                print('intermediar', type(intermediar), np.shape(intermediar))
-                for i in range(np.shape(BF_support_temp)[0]):
+                
+                lignes = np.shape(BF_support_temp)[0]
+                colonnes = np.shape(BF_support_temp)[1]
+                print('lignes,colonnes', lignes, colonnes)
+                intermediar = sc.lil_matrix((lignes, colonnes))
+                print('intermediar', type(intermediar), np.shape(intermediar), np.shape(BF_support_temp)[0], np.shape(BF_support_temp)[1], lignes, colonnes)
+                for i in range(lignes):
                     intermediar[i,:] = vol_temp[i,0] * BF_support_temp[i,:]
                 
                 #intermediar = BF_support_temp*vol_temp
