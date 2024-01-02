@@ -28,6 +28,8 @@ OUTPUT
 '''
 #Numpy import:
 import numpy as np
+#Scipy.sparse import:
+import scipy.sparse as sc
 
 #Global variables setting up the study:
 from Problem_Setting import *
@@ -88,8 +90,23 @@ def volume_grad_fun_csr(rho_e, P_rho, W, ELEMENTS, IND_mask, local_support, BF_s
                 if flag_shepard == 1:
                     BF_support_temp = shepard_support(BF_support_temp,shepard_dist)
                 
-                vol_temp  = (ELEMENTS[:,8]*ELEMENTS[:,10]).reshape((len(ELEMENTS),1))
-                grad_v = np.sum(sym_coef_temp*BF_support_temp*vol_temp,axis=0).reshape((len(IND_mask),1))#np.sum outputs an np matrix even though lil/csr in argument, we want grad_v to not be lil/csr anymore because small enough  
+                vol_temp  = ELEMENTS[:,8]*ELEMENTS[:,10].reshape((len(ELEMENTS),1))
+                #juste pour voir :
+                print('BF_support_temp', np.shape(BF_support_temp), type(BF_support_temp), np.shape(BF_support_temp)[0], np.shape(BF_support_temp)[1], BF_support_temp[3,4])
+                print('vol_temp', np.shape(vol_temp), type(vol_temp), np.shape(vol_temp)[0], vol_temp[3,0])
+
+                intermediar = sc.lil_matrix(np.shape(BF_support_temp)[0], np.shape(BF_support_temp)[1])
+                print('intermediar', type(intermediar), np.shape(intermediar))
+                for i in range(np.shape(BF_support_temp)[0]):
+                    intermediar[i,:] = vol_temp[i,0] * BF_support_temp[i,:]
+                #intermediar = BF_support_temp*vol_temp
+                #grad_v = np.sum(sym_coef_temp*BF_support_temp*vol_temp,axis=0).reshape((len(IND_mask),1))#np.sum outputs an np matrix even though lil/csr in argument, we want grad_v to not be lil/csr anymore because small enough
+                grad_v = np.sum(sym_coef_temp*intermediar,axis=0).reshape((len(IND_mask),1))
+                #juste pour voir :
+                print('BF_support_temp', np.shape(BF_support_temp.toarray()), type(BF_support_temp))
+                print('vol_temp', np.shape(vol_temp), type(vol_temp))
+                print('sym_ceof', type(sym_coef_temp))
+
         
         elif DIM==3:
             #--------------------------------------------------------------------------
@@ -114,10 +131,25 @@ def volume_grad_fun_csr(rho_e, P_rho, W, ELEMENTS, IND_mask, local_support, BF_s
                 if flag_shepard == 1:
                     BF_support_temp = shepard_support(BF_support_temp,shepard_dist)
                 
-                vol_temp = (ELEMENTS[:,12]).reshape((len(ELEMENTS),1))
-                grad_v= np.sum((sym_coef_temp*BF_support_temp).toarray()*vol_temp,axis=0).reshape((len(IND_mask),1))
+                vol_temp = ELEMENTS[:,12].reshape((len(ELEMENTS),1))
+                #juste pour voir :
+                print('BF_support_temp', np.shape(BF_support_temp), type(BF_support_temp), np.shape(BF_support_temp)[0], np.shape(BF_support_temp)[1], BF_support_temp[3,4])
+                print('vol_temp', np.shape(vol_temp), type(vol_temp), np.shape(vol_temp)[0], vol_temp[3,0])
+
+                intermediar = sc.lil_matrix(np.shape(BF_support_temp)[0], np.shape(BF_support_temp)[1])
+                print('intermediar', type(intermediar), np.shape(intermediar))
+                for i in range(np.shape(BF_support_temp)[0]):
+                    intermediar[i,:] = vol_temp[i,0] * BF_support_temp[i,:]
+                
+                #intermediar = BF_support_temp*vol_temp
+                #grad_v= np.sum(sym_coef_temp*(BF_support_temp*vol_temp).toarray,axis=0).reshape((len(IND_mask),1))
+                grad_v = np.sum(sym_coef_temp*intermediar,axis=0).reshape((len(IND_mask),1))
                 #juste pour voir :
                 print(np.shape(BF_support_temp.toarray()))
+                print('vol_temp', np.shape(vol_temp), type(vol_temp))
+                print('sym_ceof', type(sym_coef_temp))
+
+
 
     #--------------------------------------------------------------------------
     else:
