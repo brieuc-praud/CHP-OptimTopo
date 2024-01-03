@@ -1,0 +1,145 @@
+!#----------------------------------------------------------------------------#
+!#              SANTO (SIMP And NURBS for Topology Optimization)              #
+!#                          Arts et Métiers ParisTech                         #
+!#                          Laboratoire I2M, UMR 5295                         #
+!#              Esplanade d'Arts et Métiers 33405 Talence, France             #
+!#                                                                            #
+!#                                    -----                                   #                               
+!#                                                                            #
+!# Creation Date: 13/12/2018                                                  #
+!#                                                                            #
+!# Last Modify: 16/12/2018                                                    #
+!#----------------------------------------------------------------------------#
+
+! units [F]=N, [L]=mm, [t]=s
+! 2D Cantilever, plane stress with thickness
+FINISH		    ! closing the current module
+/CLEAR,NOSTART	! clear the database
+
+!resume database 'pb_name'
+pb_name='3D_cube_DN-C'
+resume, pb_name, db	
+
+
+/PREP7
+/nopr
+
+!Initialise the element pseudo-density array
+*DIM,rho_e,array,E_N,2
+
+*VREAD,rho_e,rho_e,txt,,JIK,2,E_N,1		!read the element pseudo-density from file rho_e.txt
+(2E24.15)
+!-------------------------------------------------------------------------------
+ALLSEL,ALL
+!-------------------------------------------------------------------------------
+*DO,i,1,E_N
+	! PENALIZATION OF THE ELEMENT STIFFNESS 
+	! Stiffness matrix DEFINITION
+	C11p=C11*(rho_e(i,2)**p_c)
+	C12p=C12*(rho_e(i,2)**p_c)
+	C13p=C13*(rho_e(i,2)**p_c)
+	C14p=C14*(rho_e(i,2)**p_c)
+	C15p=C15*(rho_e(i,2)**p_c)
+	C16p=C16*(rho_e(i,2)**p_c)
+	C22p=C22*(rho_e(i,2)**p_c)
+	C23p=C23*(rho_e(i,2)**p_c)
+	C24p=C24*(rho_e(i,2)**p_c)
+	C25p=C25*(rho_e(i,2)**p_c)
+	C26p=C26*(rho_e(i,2)**p_c)
+	C33p=C33*(rho_e(i,2)**p_c)
+	C34p=C34*(rho_e(i,2)**p_c)
+	C35p=C35*(rho_e(i,2)**p_c)
+	C36p=C36*(rho_e(i,2)**p_c)
+	C44p=C44*(rho_e(i,2)**p_c)
+	C45p=C45*(rho_e(i,2)**p_c)
+	C46p=C46*(rho_e(i,2)**p_c)
+	C55p=C55*(rho_e(i,2)**p_c)
+	C56p=C56*(rho_e(i,2)**p_c)
+	C66p=C66*(rho_e(i,2)**p_c)
+	TB,ANEL,i,1,21,0
+	!TBTEMP,0,
+	TBDATA,1,C11p,C12p,C13p,C14p,C15p,C16p 
+	TBDATA,7,C22p,C23p,C24p,C25p,C26p,C33p 
+	TBDATA,13,C34p,C35p,C36p,C44p,C45p,C46p 
+	TBDATA,19,C55p,C56p,C66p,
+	ESEL,S,,,rho_e(i,1) !select the current element within the design region
+	EMODIF,ALL,MAT,i,	!modify its material property
+*ENDDO
+ALLSEL,ALL
+
+ALLSEL,ALL
+!---------------------------------------------------------------------------------------
+FINISH
+!---------------------------------------------------------------------------------------
+/SOLU            ! Solution module
+ANTYPE,STATIC    ! Set static analysis
+OUTRES,ALL,ALL
+
+
+CMSEL,s,n_fix
+D,ALL, , , , , ,ALL, , , , ,
+
+CMSEL,s,n_dx
+D,ALL, ,delta_x, , , ,UX, , , , ,
+
+CMSEL,s,n_mdx
+D,ALL, ,-delta_x, , , ,UX, , , , ,
+
+CMSEL,s,n_dy
+D,ALL, ,delta_y, , , ,UY, , , , ,
+
+CMSEL,s,n_mdy
+D,ALL, ,-delta_y, , , ,UY, , , , ,   
+
+CMSEL,s,n_force
+F,ALL,FZ,F_z 
+ALLSEL,ALL
+
+SOLVE
+FINISH
+
+
+/POST1            			!Post-processing phase
+SET,LAST            					   
+*DIM,STR_EN_e,array,E_N,1		!initialise the array of the elements strain energy
+
+ETABLE,STR_EN,SENE 						!element table for strain energy
+*VGET,STR_EN_e(1,1),ELEM,,etab,STR_EN 	!collect the elements strain energies in the array STR_EN_e	
+
+!select the node where the displacement is applied
+CMSEL,s,n_dx
+*GET, N_delta_x, NODE, 0, NUM, MAX  
+*GET, RX1, NODE, N_delta_x, RF, FX !get the nodal reaction
+CMSEL,s,n_mdx
+*GET, N_delta_x, NODE, 0, NUM, MAX  
+*GET, RX2, NODE, N_delta_x, RF, FX !get the nodal reaction
+
+CMSEL,s,n_dy
+*GET, N_delta_y, NODE, 0, NUM, MAX  
+*GET, RY1, NODE, N_delta_y, RF, FY !get the nodal reaction
+CMSEL,s,n_mdy
+*GET, N_delta_y, NODE, 0, NUM, MAX  
+*GET, RY2, NODE, N_delta_y, RF, FY !get the nodal reaction
+
+!select the node where the force is applied
+CMSEL,s,n_force
+*GET, N_force, NODE, 0, NUM, MAX  
+*GET, UZ_force, NODE, N_force, U, Z 
+
+Compliance=F_z*UZ_force-(RX1-RX2)*delta_x-(RY1-RY2)*delta_y
+
+ 		
+FINISH              					   ! Exit post-processing module
+!-------------------------------------------------------------------------------
+!Write objective function
+*CFOPEN,FEM_SIMP_RES,txt
+*VWRITE,Compliance
+(E24.15)
+*CFCLOS
+! Write elements ID and C_diff_e for gradient calculation
+*CFOPEN,C_diff_elements,txt
+*VWRITE,STR_EN_e(1,1)
+(E24.15)
+*CFCLOS
+
+FINISH $ /EXIT, nosave
