@@ -56,6 +56,9 @@ from numpy import linalg as LA
 import os
 from time import process_time
 
+#Scipy.sparse import:
+import scipy.sparse as sc
+
 
 #Global variables setting up the study:
 from Problem_Setting import *
@@ -185,6 +188,11 @@ def compliance_grad_fun_csr(rho_e, P_rho, W, ELEMENTS, IND_mask, local_support, 
                         # 1 - Derivatives of topology descriptor
                         der_CP, der_W, BF_mask = der_NURBS(local_support,BF_support,IND_mask_active,IND_mask,IND_mask_tot,P_rho,W,rho_e)
                         
+                        #Passage des variables CSR suivantes en format array
+                        der_CP = der_CP.toarray()
+                        der_W = der_W.toarray()
+                        BF_mask = BF_mask.toarray()
+
                         # 2 - Derivatives of Stiffness Matrix coefficients (anisotropic, orthotropic)
                         grad_C_coef_cp = np.zeros((size_grad_C,len(IND_mask)),'f')  
                         grad_C_coef_w = np.zeros((size_grad_C,len(IND_mask)),'f')
@@ -404,6 +412,11 @@ def compliance_grad_fun_csr(rho_e, P_rho, W, ELEMENTS, IND_mask, local_support, 
                     if flag_scale == 'micro_macro' or flag_scale == 'micro':
                         # 1 - Derivatives of topology descriptor  
                         der_CP, der_W, BF_mask = der_NURBS(local_support,BF_support,IND_mask_active,IND_mask,IND_mask_tot,P_rho,W,rho_e)
+                        
+                        #Passage des variables CSR suivantes en format array
+                        der_CP = der_CP.toarray()
+                        der_W = der_W.toarray()
+                        BF_mask = BF_mask.toarray()
                         
                         # 2 - Derivatives of Stiffness Matrix coefficients (anisotropic, orthotropic)                        
                         grad_C_coef_cp = np.zeros((size_grad_C,len(IND_mask)),'f')  
