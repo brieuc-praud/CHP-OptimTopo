@@ -188,7 +188,7 @@ def compliance_grad_fun_csr(rho_e, P_rho, W, ELEMENTS, IND_mask, local_support, 
                         # 1 - Derivatives of topology descriptor
                         der_CP, der_W, BF_mask = der_NURBS(local_support,BF_support,IND_mask_active,IND_mask,IND_mask_tot,P_rho,W,rho_e)
                         
-                        #Passage des variables CSR suivantes en format array
+                        ### Ajout - Passage des variables CSR suivantes en format array
                         der_CP = der_CP.toarray()
                         der_W = der_W.toarray()
                         BF_mask = BF_mask.toarray()
@@ -284,6 +284,7 @@ def compliance_grad_fun_csr(rho_e, P_rho, W, ELEMENTS, IND_mask, local_support, 
                         # Derivatives of compliance respecting to standard scale design variables                        
                         der_CP, der_W, BF_mask = der_NURBS(local_support,BF_support,IND_mask_active,IND_mask,IND_mask_tot,P_rho,W,rho_e)                       
                         
+
                         #c_vec_temp = c_vec[BF_mask].reshape((len(BF_mask),1))
                         c_vec_temp = c_vec[np.int_(ELEMENTS[:,0])-1].reshape((len(BF_mask),1))
                         #print('c_vec_temp dimension',c_vec_temp.shape)
@@ -319,16 +320,36 @@ def compliance_grad_fun_csr(rho_e, P_rho, W, ELEMENTS, IND_mask, local_support, 
                         c_vec_micro = c_vec_micro[np.int_(ELEMENTS[:,0])-1]
 
                         # 2 - Derivatives of Stiffness Matrix coefficients (anisotropic, orthotropic)
-                        grad_C_coef = np.zeros((size_grad_C,len(IND_mask)),'f')  
+                        grad_C_coef = np.zeros((size_grad_C,len(IND_mask)),'f')
+
+                        ### Ajout - Construction intermédiaire du produit terme à terme
                         for a in range(3):
                             c_vec_micro_temp = c_vec_micro[:,a].reshape((len(c_vec_micro),1))
-                            grad_C_coef[a,:] = np.sum(sym_coef*p_c*c_vec_micro_temp*BF_support_temp/(a1*a2*rho_e),axis=0)
+
+                            lignes = np.shape(BF_support_temp)[0]
+                            colonnes = np.shape(BF_support_temp)[1]
+                            intermediar = sc.lil_matrix((lignes, colonnes))
+                            for i in range(lignes):
+                                intermediar[i,:] = c_vec_micro_temp[i,0] * BF_support_temp[i,:]
+
+                            grad_C_coef[a,:] = np.sum(sym_coef*p_c*intermediar/(a1*a2*rho_e),axis=0)
+
+
 
                         cont = 1
                         for i in range(i_range_end):
                             for j in range(i+1,j_range_end):
                                 comp_temp = (c_vec_micro[:,a+cont]-c_vec_micro[:,i]-c_vec_micro[:,j]).reshape((len(c_vec_micro),1))
-                                grad_C_coef[a+cont,:] = np.sum(sym_coef*p_c*comp_temp*BF_support_temp/(2*a1*a2*rho_e),axis=0)   
+
+                                ### Ajout - Construction intermédiaire du produit terme à terme
+                                lignes = np.shape(BF_support_temp)[0]
+                                colonnes = np.shape(BF_support_temp)[1]
+                                intermediar = sc.lil_matrix((lignes, colonnes))
+
+                                for k in range(lignes):
+                                    intermediar[k,:] = comp_temp[k,0] * BF_support_temp[k,:]
+
+                                grad_C_coef[a+cont,:] = np.sum(sym_coef*p_c*intermediar/(2*a1*a2*rho_e),axis=0)   
                                 cont += 1
 
                         # 3 - Derivatives of the Macro scale Compliance               
@@ -377,8 +398,18 @@ def compliance_grad_fun_csr(rho_e, P_rho, W, ELEMENTS, IND_mask, local_support, 
                             # it contributes to the c_vec total but the punctual contribute has to be neglected
                             c_vec_macro = c_vec_macro[np.int_(ELEMENTS_macro[:,0])-1]                            
                             c_vec_macro_temp = c_vec_macro.reshape((len(c_vec_macro),1))
-                            grad_c_M = np.sum(-sym_coefM*p_c*c_vec_macro_temp*BF_support_temp/rho_e_M,axis=0).reshape(len(IND_mask_M),1)    
+
+                            ### Ajout - Construction intermédiaire du produit terme à terme
+                            lignes = np.shape(BF_support_temp)[0]
+                            colonnes = np.shape(BF_support_temp)[1]
+                            intermediar = sc.lil_matrix((lignes, colonnes))
+
+                            for i in range(lignes):
+                                    intermediar[i,:] = c_vec_macro_temp[i,0] * BF_support_temp[i,:]
+
+                            grad_c_M = np.sum(-sym_coefM*p_c*intermediar/rho_e_M,axis=0).reshape(len(IND_mask_M),1)    
                             
+
                             #print('micro','{:.2E}'.format(LA.norm(grad_c)),'macro','{:.2E}'.format(LA.norm(grad_c_M)))                              
                             grad_c_T = np.concatenate((grad_c,grad_c_M))
                     else:
@@ -394,16 +425,26 @@ def compliance_grad_fun_csr(rho_e, P_rho, W, ELEMENTS, IND_mask, local_support, 
                         #print('c_vec_temp dimension',c_vec_temp.shape)
                         #stoppa
                         #TODO
+
+                        ### Ajout - Construction intermédiaire du produit terme à terme
+                        lignes = np.shape(BF_support_temp)[0]
+                        colonnes = np.shape(BF_support_temp)[1]
+                        intermediar = sc.lil_matrix((lignes, colonnes))
+
+                        for i in range(lignes):
+                                intermediar[i,:] = c_vec_temp[i,0] * BF_support_temp[i,:]
+
+
                         if flag_penalisation == 'SIMP':
                             if flag_BCs == 'mixed-w':
-                                grad_c = np.sum(sym_coef*p_c*c_vec_temp*BF_support_temp/rho_e,axis=0).reshape(len(IND_mask),1)
+                                grad_c = np.sum(sym_coef*p_c*intermediar/rho_e,axis=0).reshape(len(IND_mask),1)
                             else: 
-                                grad_c = np.sum(-sym_coef*p_c*c_vec_temp*BF_support_temp/rho_e,axis=0).reshape(len(IND_mask),1)
+                                grad_c = np.sum(-sym_coef*p_c*intermediar/rho_e,axis=0).reshape(len(IND_mask),1)
                         else:
                             if flag_BCs == 'mixed-w':
-                                grad_c = np.sum(sym_coef*c_vec_temp*BF_support_temp,axis=0).reshape(len(IND_mask),1)
+                                grad_c = np.sum(sym_coef*intermediar,axis=0).reshape(len(IND_mask),1)
                             else: 
-                                grad_c = np.sum(-sym_coef*c_vec_temp*BF_support_temp,axis=0).reshape(len(IND_mask),1)
+                                grad_c = np.sum(-sym_coef*intermediar,axis=0).reshape(len(IND_mask),1)
                         grad_c_T = grad_c
             #--------------------------------------------------------------------------                                                
             elif DIM == 3:
@@ -413,7 +454,7 @@ def compliance_grad_fun_csr(rho_e, P_rho, W, ELEMENTS, IND_mask, local_support, 
                         # 1 - Derivatives of topology descriptor  
                         der_CP, der_W, BF_mask = der_NURBS(local_support,BF_support,IND_mask_active,IND_mask,IND_mask_tot,P_rho,W,rho_e)
                         
-                        #Passage des variables CSR suivantes en format array
+                        ### Ajout - Passage des variables CSR suivantes en format array
                         der_CP = der_CP.toarray()
                         der_W = der_W.toarray()
                         BF_mask = BF_mask.toarray()
@@ -456,6 +497,8 @@ def compliance_grad_fun_csr(rho_e, P_rho, W, ELEMENTS, IND_mask, local_support, 
                             strain_e = (strain_M[:,a]**2).reshape((len(strain_M),1))
                             grad_c_cp_matrix = grad_c_cp_matrix + grad_C_coef_cp_matrix*strain_e
                             grad_c_w_matrix = grad_c_w_matrix + grad_C_coef_w_matrix*strain_e
+                        
+
                         
                         # Evaluating the contributes of the gradient of the out of diagonal Stiffness Matrix coefficients
                         cont = 1
@@ -523,16 +566,40 @@ def compliance_grad_fun_csr(rho_e, P_rho, W, ELEMENTS, IND_mask, local_support, 
 
                         # 2 - Derivatives of Stiffness Matrix coefficients (anisotropic, orthotropic)
                         grad_C_coef = np.zeros((size_grad_C,len(IND_mask)),'f')  
+
+                        ### Ajout - Construction intermédiaire du produit terme à terme
                         for a in range(6):
                             c_vec_micro_temp = c_vec_micro[:,a].reshape((len(c_vec_micro),1))
-                            grad_C_coef[a,:] = np.sum(sym_coef*p_c*c_vec_micro_temp*BF_support_temp/(a1*a2*a3*rho_e),axis=0)
+
+                            lignes = np.shape(BF_support_temp)[0]
+                            colonnes = np.shape(BF_support_temp)[1]
+                            intermediar = sc.lil_matrix((lignes, colonnes))
+
+                            for i in range(lignes):
+                                intermediar[i,:] = c_vec_micro_temp[i,0] * BF_support_temp[i,:]
+
+
+                            grad_C_coef[a,:] = np.sum(sym_coef*p_c*intermediar/(a1*a2*a3*rho_e),axis=0)
+
+
 
                         cont = 1 
                         for i in range(i_range_end):
                             for j in range(i+1,j_range_end):
                                 comp_temp = (c_vec_micro[:,a+cont]-c_vec_micro[:,i]-c_vec_micro[:,j]).reshape((len(c_vec_micro),1))
-                                grad_C_coef[a+cont,:] = np.sum(sym_coef*p_c*comp_temp*BF_support_temp/(2*a1*a2*a3*rho_e),axis=0)   
+
+                                ### Ajout - Construction intermédiaire du produit terme à terme
+                                lignes = np.shape(BF_support_temp)[0]
+                                colonnes = np.shape(BF_support_temp)[1]
+                                intermediar = sc.lil_matrix((lignes, colonnes))
+
+                                for k in range(lignes):
+                                    intermediar[k,:] = comp_temp[k,0] * BF_support_temp[k,:]
+
+                                grad_C_coef[a+cont,:] = np.sum(sym_coef*p_c*intermediar/(2*a1*a2*a3*rho_e),axis=0)   
                                 cont += 1
+
+
 
                         # 3 - Derivatives of the Macro scale Compliance
                         grad_c = np.zeros((len(IND_mask),1),'f')                    
@@ -581,7 +648,16 @@ def compliance_grad_fun_csr(rho_e, P_rho, W, ELEMENTS, IND_mask, local_support, 
                             # it contributes to the c_vec total but the punctual contribute has to be neglected
                             c_vec_macro = c_vec_macro[np.int_(ELEMENTS_macro[:,0])-1] 
                             c_vec_macro_temp = c_vec_macro.reshape((len(c_vec_macro),1))
-                            grad_c_M = np.sum(-(sym_coefM * p_c * c_vec_macro_temp * BF_support_temp)/rho_e_M,axis=0).reshape(len(IND_mask_M),1)
+
+                            ### Ajout - Construction intermédiaire du produit terme à terme
+                            lignes = np.shape(BF_support_temp)[0]
+                            colonnes = np.shape(BF_support_temp)[1]
+                            intermediar = sc.lil_matrix((lignes, colonnes))
+
+                            for i in range(lignes):
+                                    intermediar[i,:] = c_vec_macro_temp[i,0] * BF_support_temp[i,:]
+
+                            grad_c_M = np.sum(-(sym_coefM * p_c * intermediar)/rho_e_M,axis=0).reshape(len(IND_mask_M),1)
                             
                             #print('{:.2E}      {:.2E}'.format(LA.norm(grad_c),LA.norm(grad_c_M)))           
                             grad_c_T = np.concatenate((grad_c,grad_c_M))
@@ -596,18 +672,28 @@ def compliance_grad_fun_csr(rho_e, P_rho, W, ELEMENTS, IND_mask, local_support, 
                         c_vec = c_vec[np.int_(ELEMENTS[:,0])-1] 
                         c_vec_temp = c_vec.reshape((len(c_vec),1))
                         #TODO
+
+                        ### Ajout - Construction intermédiaire du produit terme à terme
+                        lignes = np.shape(BF_support_temp)[0]
+                        colonnes = np.shape(BF_support_temp)[1]
+                        intermediar = sc.lil_matrix((lignes, colonnes))
+
+                        for i in range(lignes):
+                                intermediar[i,:] = c_vec_temp[i,0] * BF_support_temp[i,:]
+
+
                         if flag_penalisation == 'SIMP':
                             if flag_BCs == 'mixed-w':
                                 print('******************')
                                 print(c_vec_temp*BF_support_temp)
-                                grad_c = np.sum(sym_coef*p_c*c_vec_temp*BF_support_temp/rho_e,axis=0).reshape(len(IND_mask),1)
+                                grad_c = np.sum(sym_coef*p_c*intermediar/rho_e,axis=0).reshape(len(IND_mask),1)
                             else: 
-                                grad_c = np.sum(-sym_coef*p_c*c_vec_temp*BF_support_temp/rho_e,axis=0).reshape(len(IND_mask),1) 
+                                grad_c = np.sum(-sym_coef*p_c*intermediar/rho_e,axis=0).reshape(len(IND_mask),1) 
                         else:
                             if flag_BCs == 'mixed-w':
-                                grad_c = np.sum(sym_coef*c_vec_temp*BF_support_temp,axis=0).reshape(len(IND_mask),1)
+                                grad_c = np.sum(sym_coef*intermediar,axis=0).reshape(len(IND_mask),1)
                             else: 
-                                grad_c = np.sum(-sym_coef*c_vec_temp*BF_support_temp,axis=0).reshape(len(IND_mask),1)                                             
+                                grad_c = np.sum(-sym_coef*intermediar,axis=0).reshape(len(IND_mask),1)                                             
                         grad_c_T = grad_c               
         #--------------------------------------------------------------------------
         else:
