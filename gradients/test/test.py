@@ -15,6 +15,7 @@ sys.path.append(main_dir)
 from compliance_mM import *
 from volume_mM import *
 from local_Support_mM import *
+from local_Support_mM_CSR import *
 from volume_mM_CSR import *
 from compliance_mM_CSR import *
 
@@ -43,7 +44,9 @@ grad_v = volume_grad_fun(rho_e, P_rho, W, ELEMENTS, IND_mask, local_support, BF_
 
 #---------------------------------------------
 
-# Calculez les résultats avec les fonctions CSR
+# Calcul des résultats avec les fonctions CSR
+local_support_csr, BF_support_csr, IND_mask_active_csr = local_support_fun_csr(ELEMENTS, IND_mask, IND_mask_tot, U1, U2, U3, scale)
+
 grad_c_T_csr = compliance_grad_fun_csr(rho_e, P_rho, W, ELEMENTS, IND_mask, local_support, BF_support, IND_mask_tot, IND_mask_active, scale)
 grad_v_csr = volume_grad_fun_csr(rho_e, P_rho, W, ELEMENTS, IND_mask, local_support, BF_support, IND_mask_tot, IND_mask_active, scale)
 
