@@ -333,7 +333,7 @@ def compliance_grad_fun_csr(rho_e, P_rho, W, ELEMENTS, IND_mask, local_support, 
                                 intermediar[i,:] = c_vec_micro_temp[i,0] * BF_support_temp[i,:]
 
                             grad_C_coef[a,:] = np.sum(sym_coef*p_c*intermediar/(a1*a2*rho_e),axis=0)
-
+                            #grad_C_coef[a,:] = np.sum(sym_coef*p_c*c_vec_micro_temp*BF_support_temp/(a1*a2*rho_e),axis=0)
 
 
                         cont = 1
@@ -350,6 +350,7 @@ def compliance_grad_fun_csr(rho_e, P_rho, W, ELEMENTS, IND_mask, local_support, 
                                     intermediar[k,:] = comp_temp[k,0] * BF_support_temp[k,:]
 
                                 grad_C_coef[a+cont,:] = np.sum(sym_coef*p_c*intermediar/(2*a1*a2*rho_e),axis=0)   
+                                #grad_C_coef[a+cont,:] = np.sum(sym_coef*p_c*comp_temp*BF_support_temp/(2*a1*a2*rho_e),axis=0)
                                 cont += 1
 
                         # 3 - Derivatives of the Macro scale Compliance               
@@ -408,7 +409,7 @@ def compliance_grad_fun_csr(rho_e, P_rho, W, ELEMENTS, IND_mask, local_support, 
                                     intermediar[i,:] = c_vec_macro_temp[i,0] * BF_support_temp[i,:]
 
                             grad_c_M = np.sum(-sym_coefM*p_c*intermediar/rho_e_M,axis=0).reshape(len(IND_mask_M),1)    
-                            
+                            #grad_c_M = np.sum(-sym_coefM*p_c*c_vec_macro_temp*BF_support_temp/rho_e_M,axis=0).reshape(len(IND_mask_M),1)  
 
                             #print('micro','{:.2E}'.format(LA.norm(grad_c)),'macro','{:.2E}'.format(LA.norm(grad_c_M)))                              
                             grad_c_T = np.concatenate((grad_c,grad_c_M))
@@ -438,13 +439,17 @@ def compliance_grad_fun_csr(rho_e, P_rho, W, ELEMENTS, IND_mask, local_support, 
                         if flag_penalisation == 'SIMP':
                             if flag_BCs == 'mixed-w':
                                 grad_c = np.sum(sym_coef*p_c*intermediar/rho_e,axis=0).reshape(len(IND_mask),1)
+                                #grad_c = np.sum(sym_coef*p_c*c_vec_temp*BF_support_temp/rho_e,axis=0).reshape(len(IND_mask),1)
                             else: 
                                 grad_c = np.sum(-sym_coef*p_c*intermediar/rho_e,axis=0).reshape(len(IND_mask),1)
+                                #grad_c = np.sum(-sym_coef*p_c*c_vec_temp*BF_support_temp/rho_e,axis=0).reshape(len(IND_mask),1)
                         else:
                             if flag_BCs == 'mixed-w':
                                 grad_c = np.sum(sym_coef*intermediar,axis=0).reshape(len(IND_mask),1)
+                                #grad_c = np.sum(sym_coef*c_vec_temp*BF_support_temp,axis=0).reshape(len(IND_mask),1)
                             else: 
                                 grad_c = np.sum(-sym_coef*intermediar,axis=0).reshape(len(IND_mask),1)
+                                #grad_c = np.sum(-sym_coef*c_vec_temp*BF_support_temp,axis=0).reshape(len(IND_mask),1)
                         grad_c_T = grad_c
             #--------------------------------------------------------------------------                                                
             elif DIM == 3:
@@ -580,7 +585,7 @@ def compliance_grad_fun_csr(rho_e, P_rho, W, ELEMENTS, IND_mask, local_support, 
 
 
                             grad_C_coef[a,:] = np.sum(sym_coef*p_c*intermediar/(a1*a2*a3*rho_e),axis=0)
-
+                            #grad_C_coef[a,:] = np.sum(sym_coef*p_c*c_vec_micro_temp*BF_support_temp/(a1*a2*a3*rho_e),axis=0)
 
 
                         cont = 1 
@@ -596,7 +601,8 @@ def compliance_grad_fun_csr(rho_e, P_rho, W, ELEMENTS, IND_mask, local_support, 
                                 for k in range(lignes):
                                     intermediar[k,:] = comp_temp[k,0] * BF_support_temp[k,:]
 
-                                grad_C_coef[a+cont,:] = np.sum(sym_coef*p_c*intermediar/(2*a1*a2*a3*rho_e),axis=0)   
+                                grad_C_coef[a+cont,:] = np.sum(sym_coef*p_c*intermediar/(2*a1*a2*a3*rho_e),axis=0)
+                                #grad_C_coef[a+cont,:] = np.sum(sym_coef*p_c*comp_temp*BF_support_temp/(2*a1*a2*a3*rho_e),axis=0)     
                                 cont += 1
 
 
@@ -658,6 +664,7 @@ def compliance_grad_fun_csr(rho_e, P_rho, W, ELEMENTS, IND_mask, local_support, 
                                     intermediar[i,:] = c_vec_macro_temp[i,0] * BF_support_temp[i,:]
 
                             grad_c_M = np.sum(-(sym_coefM * p_c * intermediar)/rho_e_M,axis=0).reshape(len(IND_mask_M),1)
+                            #grad_c_M = np.sum(-(sym_coefM * p_c * c_vec_macro_temp*BF_support_temp)/rho_e_M,axis=0).reshape(len(IND_mask_M),1)
                             
                             #print('{:.2E}      {:.2E}'.format(LA.norm(grad_c),LA.norm(grad_c_M)))           
                             grad_c_T = np.concatenate((grad_c,grad_c_M))
@@ -687,13 +694,17 @@ def compliance_grad_fun_csr(rho_e, P_rho, W, ELEMENTS, IND_mask, local_support, 
                                 print('******************')
                                 print(c_vec_temp*BF_support_temp)
                                 grad_c = np.sum(sym_coef*p_c*intermediar/rho_e,axis=0).reshape(len(IND_mask),1)
+                                #grad_c = np.sum(sym_coef*p_c*c_vec_temp*BF_support_temp/rho_e,axis=0).reshape(len(IND_mask),1)
                             else: 
-                                grad_c = np.sum(-sym_coef*p_c*intermediar/rho_e,axis=0).reshape(len(IND_mask),1) 
+                                grad_c = np.sum(-sym_coef*p_c*intermediar/rho_e,axis=0).reshape(len(IND_mask),1)
+                                #grad_c = np.sum(-sym_coef*p_c*c_vec_temp*BF_support_temp/rho_e,axis=0).reshape(len(IND_mask),1)  
                         else:
                             if flag_BCs == 'mixed-w':
                                 grad_c = np.sum(sym_coef*intermediar,axis=0).reshape(len(IND_mask),1)
+                                #grad_c = np.sum(sym_coef*c_vec_temp*BF_support_temp,axis=0).reshape(len(IND_mask),1)
                             else: 
-                                grad_c = np.sum(-sym_coef*intermediar,axis=0).reshape(len(IND_mask),1)                                             
+                                grad_c = np.sum(-sym_coef*intermediar,axis=0).reshape(len(IND_mask),1)
+                                #grad_c = np.sum(-sym_coef*c_vec_temp*BF_support_temp,axis=0).reshape(len(IND_mask),1)                                              
                         grad_c_T = grad_c               
         #--------------------------------------------------------------------------
         else:
