@@ -1,6 +1,9 @@
 import os
 import sys
 
+#bibliothèque chronomètrage
+from time import perf_counter
+
 #---------------------------------------------
 
 # Obtenir le chemin du dossier courant
@@ -38,19 +41,22 @@ P_rho = np.loadtxt(os.path.join(main_dir, 'P_rho_test.dat')).reshape(28, 28, 28)
 W = np.loadtxt(os.path.join(main_dir, 'W_test.dat')).reshape(28, 28, 28)
 
 #---------------------------------------------
-
+t_start = perf_counter()
 local_support, BF_support, IND_mask_active = local_support_fun(ELEMENTS, IND_mask, IND_mask_tot, U1, U2, U3, scale)
 
 grad_c_T = compliance_grad_fun(rho_e, P_rho, W, ELEMENTS, IND_mask, local_support, BF_support, IND_mask_tot, IND_mask_active, scale)
 grad_v = volume_grad_fun(rho_e, P_rho, W, ELEMENTS, IND_mask, local_support, BF_support, IND_mask_tot, IND_mask_active, scale)
+t_finish = perf_counter()
 
 #---------------------------------------------
 
 # Calcul des résultats avec les fonctions CSR
+t_start_csr = perf_counter()
 local_support_csr, BF_support_csr, IND_mask_active_csr = local_support_fun_csr(ELEMENTS, IND_mask, IND_mask_tot, U1, U2, U3, scale)
 
 grad_c_T_csr = compliance_grad_fun_csr(rho_e, P_rho, W, ELEMENTS, IND_mask, local_support_csr, BF_support_csr, IND_mask_tot, IND_mask_active_csr, scale)#mettre '_csr' après les trois arg quand compliance csr faite
 grad_v_csr = volume_grad_fun_csr(rho_e, P_rho, W, ELEMENTS, IND_mask, local_support_csr, BF_support_csr, IND_mask_tot, IND_mask_active_csr, scale)
+t_finish_csr = perf_counter()
 
 
 #---------------------------------------------
@@ -66,6 +72,10 @@ if np.allclose(grad_v, grad_v_csr):
 else:
     print("TEST NON VALIDE : Les résultats de grad_v et grad_v_csr ne sont pas identiques.")
 
+
+print("TEMPS DE CALCUL ( en secondes ):")
+print("Code d'origine ( non-optimisé ) :", t_finish - t_start)
+print("Code optimisé ( lil/csr ) :", t_finish_csr - t_start_csr)
 #---------------------------------------------
 
 os.chdir(current_dir)
