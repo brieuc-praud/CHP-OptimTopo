@@ -76,6 +76,7 @@ else:
 print("TEMPS DE CALCUL ( en secondes ):")
 print("Code d'origine ( non-optimisé ) :", t_finish - t_start)
 print("Code optimisé ( lil/csr ) :", t_finish_csr - t_start_csr)
+print("Différence de temps entre les deux versions : temps_original - temps_csr )", t_finish - t_start - ( t_finish_csr - t_start_csr ))
 #---------------------------------------------
 
 os.chdir(current_dir)
