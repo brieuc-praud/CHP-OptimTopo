@@ -5,14 +5,16 @@ Created on Wed Oct 21 16:15:59 2020
 """
 from Problem_Setting import *
 
-def der_NURBS(local_support,BF_support,IND_mask_active,IND_mask,IND_mask_tot,P_rho,W,rho_e):
+def der_NURBS(local_support,BF_support,IND_mask_active,IND_mask,IND_mask_tot,P_rho,W,rho_e):#BF_support is a lil/csr matrix
+
+
     
     if DIM == 2:
         
         local_support_flat = [item for sublist in local_support for item in sublist]
         BF_mask = list(set(local_support_flat))
-        BF_support_temp = BF_support[BF_mask,:]
-        BF_support_temp = BF_support_temp[:,IND_mask_active]
+        BF_support_temp = BF_support[BF_mask,:]#still a lil/csr matrix
+        BF_support_temp = BF_support_temp[:,IND_mask_active]#still a lil/csr matrix
         W_temp = W[IND_mask[:,0],IND_mask[:,1]].reshape((len(IND_mask),1))
         W_S_temp = W[IND_mask_tot[:,0],IND_mask_tot[:,1]].reshape((len(IND_mask_tot),1))
         P_temp = P_rho[IND_mask[:,0],IND_mask[:,1]].reshape((len(IND_mask),1))
@@ -42,10 +44,10 @@ def der_NURBS(local_support,BF_support,IND_mask_active,IND_mask,IND_mask_tot,P_r
         Nij_nurbs = (BF_support_temp * rho_e[BF_mask])
         der_W = Nij_P/S_w - Nij_nurbs/S_w
         
-    return der_CP, der_W, BF_mask
+    return der_CP, der_W, BF_mask#all outputs are lil/csr
 
-def der_BSPLINE(IND_mask_active,BF_support):
+def der_BSPLINE(IND_mask_active,BF_support):#BF_support is a lil/csr matrix
     
-    BF_support_temp = BF_support[:,IND_mask_active]
+    BF_support_temp = BF_support[:,IND_mask_active]#still a lil/csr matrix
     
     return BF_support_temp
