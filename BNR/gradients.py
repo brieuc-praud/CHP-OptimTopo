@@ -10,10 +10,10 @@ from time import perf_counter
 
 # Obtenir le chemin du dossier courant
 current_dir = os.getcwd()
-
-main_dir = os.path.join(current_dir, "..")
+main_dir = os.path.join(current_dir, "../gradients")
 
 sys.path.append(main_dir)
+os.chdir(main_dir)
 
 #---------------------------------------------
 
@@ -23,11 +23,6 @@ from local_Support_mM import *
 from local_Support_mM_CSR import * 
 from volume_mM_CSR import *
 from compliance_mM_CSR import *
-
-#---------------------------------------------
-
-test_dir = os.path.join(main_dir, "test")
-os.chdir(test_dir)
 
 #---------------------------------------------
 
