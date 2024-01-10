@@ -3,14 +3,18 @@
 import numpy as np 
 import requests
 import os
+import sys
 import warnings
 import re
+
+os.chdir("..")
+sys.path.append(".")
+
 
 import hash_tools as ht
 
 # Set test size
-size=100
-
+size=30
 
 settings_file = "Problem_Setting.py"
 

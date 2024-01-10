@@ -1,6 +1,0 @@
-!resume database 'pb_name'
-pb_name='3D_cube_DN-C'
-resume, pb_name, db
-/PREP7
-FINISH
-/EXIT, nosave
