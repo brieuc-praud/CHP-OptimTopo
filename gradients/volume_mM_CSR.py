@@ -31,12 +31,27 @@ import numpy as np
 #Scipy.sparse import:
 import scipy.sparse as sc
 
+from numba import njit, prange
+
 #Global variables setting up the study:
 from Problem_Setting import *
 
 #Surface and Hypersurface computation import:
 from derTopo import der_NURBS, der_BSPLINE
 #--------------------------------------------------------------------------
+
+@njit(parallel = True)
+def prod_BF_supp(ligne, colonne, vec, BF):
+                res = sc.lil_matrix((ligne, colonne))
+                for i in prange(lignes):#we have to do that because the '*' numpy operation is different from the one of lil/csr so we need to make it by hand ; it is for BF_support_temp * vol_temp
+                    res[i,:] = vec[i] * BF[i,:]
+                return res
+
+
+
+
+
+
 def volume_fun(rho_e, ELEMENTS, *args):
     #--------------------------------------------------------------------------
     flag_scale = args[0]
@@ -57,6 +72,7 @@ def volume_fun(rho_e, ELEMENTS, *args):
 
 def volume_grad_fun_csr(rho_e, P_rho, W, ELEMENTS, IND_mask, local_support, BF_support, IND_mask_tot, IND_mask_active, *args):#BF_support is a lil/csr matrix
     #--------------------------------------------------------------------------
+
     if DERIVATIVES ==1:
 
         flag_scale = args[0]
@@ -94,9 +110,11 @@ def volume_grad_fun_csr(rho_e, P_rho, W, ELEMENTS, IND_mask, local_support, BF_s
 
                 lignes = np.shape(BF_support_temp)[0]
                 colonnes = np.shape(BF_support_temp)[1]
-                intermediar = sc.lil_matrix((lignes, colonnes))
-                for i in range(lignes):#we have to do that because the '*' numpy operation is different from the one of lil/csr so we need to make it by hand ; it is for BF_support_temp * vol_temp
-                    intermediar[i,:] = vol_temp[i,0] * BF_support_temp[i,:]
+                #intermediar = sc.lil_matrix((lignes, colonnes))
+                #for i in range(lignes):#we have to do that because the '*' numpy operation is different from the one of lil/csr so we need to make it by hand ; it is for BF_support_temp * vol_temp
+                    #intermediar[i,:] = vol_temp[i,0] * BF_support_temp[i,:]
+
+                intermediar = prod_BF_supp(lignes, colonnes, vol_temp[:,0], BF_support_temp)
 
                 grad_v = np.sum(sym_coef_temp*intermediar,axis=0).reshape((len(IND_mask),1))#np.sum outputs an np matrix even though lil/csr in argument, we want grad_v to not be lil/csr anymore because not enough zeros
 
@@ -129,10 +147,11 @@ def volume_grad_fun_csr(rho_e, P_rho, W, ELEMENTS, IND_mask, local_support, BF_s
                 #comments in the 'else' of the 'DIM==2' condition loop
                 lignes = np.shape(BF_support_temp)[0]
                 colonnes = np.shape(BF_support_temp)[1]
-                intermediar = sc.lil_matrix((lignes, colonnes))
-                for i in range(lignes):
-                    intermediar[i,:] = vol_temp[i,0] * BF_support_temp[i,:]
+                #intermediar = sc.lil_matrix((lignes, colonnes))
+                #for i in range(lignes):
+                    #intermediar[i,:] = vol_temp[i,0] * BF_support_temp[i,:]
                 
+                intermediar = prod_BF_supp(lignes, colonnes, vol_temp[:,0], BF_support_temp)
                 grad_v = np.sum(sym_coef_temp*intermediar,axis=0).reshape((len(IND_mask),1))
 
 
