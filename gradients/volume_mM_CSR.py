@@ -90,13 +90,9 @@ def volume_grad_fun_csr(rho_e, P_rho, W, ELEMENTS, IND_mask, local_support, BF_s
                 if flag_shepard == 1:
                     BF_support_temp = shepard_support(BF_support_temp,shepard_dist)
                 
-                vol_temp  = ELEMENTS[:,8]*ELEMENTS[:,10].reshape((len(ELEMENTS),1))
+                vol_temp  = sc.diags(ELEMENTS[:,8]*ELEMENTS[:,10].reshape((len(ELEMENTS),1))[:,0])
 
-                lignes = np.shape(BF_support_temp)[0]
-                colonnes = np.shape(BF_support_temp)[1]
-                intermediar = sc.lil_matrix((lignes, colonnes))
-                for i in range(lignes):#we have to do that because the '*' numpy operation is different from the one of lil/csr so we need to make it by hand ; it is for BF_support_temp * vol_temp
-                    intermediar[i,:] = vol_temp[i,0] * BF_support_temp[i,:]
+                intermediar = vol_temp @ BF_support_temp
 
                 grad_v = np.sum(sym_coef_temp*intermediar,axis=0).reshape((len(IND_mask),1))#np.sum outputs an np matrix even though lil/csr in argument, we want grad_v to not be lil/csr anymore because not enough zeros
 
@@ -124,17 +120,10 @@ def volume_grad_fun_csr(rho_e, P_rho, W, ELEMENTS, IND_mask, local_support, BF_s
                 if flag_shepard == 1:
                     BF_support_temp = shepard_support(BF_support_temp,shepard_dist)
                 
-                vol_temp = ELEMENTS[:,12].reshape((len(ELEMENTS),1))
-                
-                #comments in the 'else' of the 'DIM==2' condition loop
-                lignes = np.shape(BF_support_temp)[0]
-                colonnes = np.shape(BF_support_temp)[1]
-                intermediar = sc.lil_matrix((lignes, colonnes))
-                for i in range(lignes):
-                    intermediar[i,:] = vol_temp[i,0] * BF_support_temp[i,:]
-                
-                grad_v = np.sum(sym_coef_temp*intermediar,axis=0).reshape((len(IND_mask),1))
+                vol_temp  = sc.diags(ELEMENTS[:,12].reshape((len(ELEMENTS),1))[:,0])
+                intermediar = vol_temp @ BF_support_temp
 
+                grad_v = np.sum(sym_coef_temp*intermediar,axis=0).reshape((len(IND_mask),1))
 
 
     #--------------------------------------------------------------------------
