@@ -49,7 +49,7 @@ grad_v = volume_grad_fun(rho_e, P_rho, W, ELEMENTS, IND_mask, local_support, BF_
 # Calcul des résultats avec les fonctions CSR
 local_support_csr, BF_support_csr, IND_mask_active_csr = local_support_fun_csr(ELEMENTS, IND_mask, IND_mask_tot, U1, U2, U3, scale)
 
-grad_c_T_csr = compliance_grad_fun_csr(rho_e, P_rho, W, ELEMENTS, IND_mask, local_support_csr, BF_support_csr, IND_mask_tot, IND_mask_active_csr, scale)#mettre '_csr' après les trois arg quand compliance csr faite
+grad_c_T_csr = compliance_grad_fun_csr(rho_e, P_rho, W, ELEMENTS, IND_mask, local_support_csr, BF_support_csr, IND_mask_tot, IND_mask_active_csr, scale)
 grad_v_csr = volume_grad_fun_csr(rho_e, P_rho, W, ELEMENTS, IND_mask, local_support_csr, BF_support_csr, IND_mask_tot, IND_mask_active_csr, scale)
 
 
