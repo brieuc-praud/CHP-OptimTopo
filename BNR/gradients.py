@@ -13,6 +13,7 @@ current_dir = os.getcwd()
 main_dir = os.path.join(current_dir, "../gradients")
 
 sys.path.append(main_dir)
+os.chdir(main_dir)
 
 #---------------------------------------------
 
