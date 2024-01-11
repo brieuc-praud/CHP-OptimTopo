@@ -324,13 +324,16 @@ def compliance_grad_fun_csr(rho_e, P_rho, W, ELEMENTS, IND_mask, local_support, 
 
                         ### Ajout - Construction intermédiaire du produit terme à terme
                         for a in range(3):
-                            c_vec_micro_temp = c_vec_micro[:,a].reshape((len(c_vec_micro),1))
+                            c_vec_micro_temp = sc.diags(c_vec_micro[:,a].reshape((len(c_vec_micro),1))[:,0])
 
-                            lignes = np.shape(BF_support_temp)[0]
-                            colonnes = np.shape(BF_support_temp)[1]
-                            intermediar = sc.lil_matrix((lignes, colonnes))
-                            for i in range(lignes):
-                                intermediar[i,:] = c_vec_micro_temp[i,0] * BF_support_temp[i,:]
+
+                            #lignes = np.shape(BF_support_temp)[0]
+                            #colonnes = np.shape(BF_support_temp)[1]
+                            #intermediar = sc.lil_matrix((lignes, colonnes))
+                            #for i in range(lignes):
+                                #intermediar[i,:] = c_vec_micro_temp[i,0] * BF_support_temp[i,:]
+                            
+                            intermediar = c_vec_micro_temp @ BF_support_temp
 
                             grad_C_coef[a,:] = np.sum(sym_coef*p_c*intermediar/(a1*a2*rho_e),axis=0)
                             #grad_C_coef[a,:] = np.sum(sym_coef*p_c*c_vec_micro_temp*BF_support_temp/(a1*a2*rho_e),axis=0)
@@ -339,15 +342,17 @@ def compliance_grad_fun_csr(rho_e, P_rho, W, ELEMENTS, IND_mask, local_support, 
                         cont = 1
                         for i in range(i_range_end):
                             for j in range(i+1,j_range_end):
-                                comp_temp = (c_vec_micro[:,a+cont]-c_vec_micro[:,i]-c_vec_micro[:,j]).reshape((len(c_vec_micro),1))
+                                comp_temp = sc.diags((c_vec_micro[:,a+cont]-c_vec_micro[:,i]-c_vec_micro[:,j]).reshape((len(c_vec_micro),1))[:,0])
 
                                 ### Ajout - Construction intermédiaire du produit terme à terme
-                                lignes = np.shape(BF_support_temp)[0]
-                                colonnes = np.shape(BF_support_temp)[1]
-                                intermediar = sc.lil_matrix((lignes, colonnes))
+                                #lignes = np.shape(BF_support_temp)[0]
+                                #colonnes = np.shape(BF_support_temp)[1]
+                                #intermediar = sc.lil_matrix((lignes, colonnes))
 
-                                for k in range(lignes):
-                                    intermediar[k,:] = comp_temp[k,0] * BF_support_temp[k,:]
+                                #for k in range(lignes):
+                                    #intermediar[k,:] = comp_temp[k,0] * BF_support_temp[k,:]
+                                
+                                intermediar = comp_temp @ BF_support_temp
 
                                 grad_C_coef[a+cont,:] = np.sum(sym_coef*p_c*intermediar/(2*a1*a2*rho_e),axis=0)   
                                 #grad_C_coef[a+cont,:] = np.sum(sym_coef*p_c*comp_temp*BF_support_temp/(2*a1*a2*rho_e),axis=0)
@@ -398,17 +403,19 @@ def compliance_grad_fun_csr(rho_e, P_rho, W, ELEMENTS, IND_mask, local_support, 
                             # If we have non design region the compliance of the elements belonging to that region are stocked in c_vec, 
                             # it contributes to the c_vec total but the punctual contribute has to be neglected
                             c_vec_macro = c_vec_macro[np.int_(ELEMENTS_macro[:,0])-1]                            
-                            c_vec_macro_temp = c_vec_macro.reshape((len(c_vec_macro),1))
+                            c_vec_macro_temp = sc.diags(c_vec_macro.reshape((len(c_vec_macro),1))[:,0])
 
                             ### Ajout - Construction intermédiaire du produit terme à terme
-                            lignes = np.shape(BF_support_temp)[0]
-                            colonnes = np.shape(BF_support_temp)[1]
-                            intermediar = sc.lil_matrix((lignes, colonnes))
+                            #lignes = np.shape(BF_support_temp)[0]
+                            #colonnes = np.shape(BF_support_temp)[1]
+                            #intermediar = sc.lil_matrix((lignes, colonnes))
 
-                            for i in range(lignes):
-                                    intermediar[i,:] = c_vec_macro_temp[i,0] * BF_support_temp[i,:]
+                            #for i in range(lignes):
+                                    #intermediar[i,:] = c_vec_macro_temp[i,0] * BF_support_temp[i,:]
+                            
+                            intermediar = c_vec_macro_temp @ BF_support_temp
 
-                            grad_c_M = np.sum(-sym_coefM*p_c*intermediar/rho_e_M,axis=0).reshape(len(IND_mask_M),1)    
+                            #grad_c_M = np.sum(-sym_coefM*p_c*intermediar/rho_e_M,axis=0).reshape(len(IND_mask_M),1)    
                             #grad_c_M = np.sum(-sym_coefM*p_c*c_vec_macro_temp*BF_support_temp/rho_e_M,axis=0).reshape(len(IND_mask_M),1)  
 
                             #print('micro','{:.2E}'.format(LA.norm(grad_c)),'macro','{:.2E}'.format(LA.norm(grad_c_M)))                              
@@ -422,18 +429,20 @@ def compliance_grad_fun_csr(rho_e, P_rho, W, ELEMENTS, IND_mask, local_support, 
                         # If we have non design region the compliance of the elements belonging to that region are stocked in c_vec, 
                         # it contributes to the c_vec total but the punctual contribute has to be neglected
                         c_vec = c_vec[np.int_(ELEMENTS[:,0])-1]                        
-                        c_vec_temp = c_vec.reshape((len(c_vec),1))
+                        c_vec_temp = sc.diags(c_vec.reshape((len(c_vec),1))[:,0])
                         #print('c_vec_temp dimension',c_vec_temp.shape)
                         #stoppa
                         #TODO
 
                         ### Ajout - Construction intermédiaire du produit terme à terme
-                        lignes = np.shape(BF_support_temp)[0]
-                        colonnes = np.shape(BF_support_temp)[1]
-                        intermediar = sc.lil_matrix((lignes, colonnes))
+                        #lignes = np.shape(BF_support_temp)[0]
+                        #colonnes = np.shape(BF_support_temp)[1]
+                        #intermediar = sc.lil_matrix((lignes, colonnes))
 
-                        for i in range(lignes):
-                                intermediar[i,:] = c_vec_temp[i,0] * BF_support_temp[i,:]
+                        #for i in range(lignes):
+                                #intermediar[i,:] = c_vec_temp[i,0] * BF_support_temp[i,:]
+                        
+                        intermediar = c_vec_temp @ BF_support_temp
 
 
                         if flag_penalisation == 'SIMP':
@@ -574,16 +583,16 @@ def compliance_grad_fun_csr(rho_e, P_rho, W, ELEMENTS, IND_mask, local_support, 
 
                         ### Ajout - Construction intermédiaire du produit terme à terme
                         for a in range(6):
-                            c_vec_micro_temp = c_vec_micro[:,a].reshape((len(c_vec_micro),1))
+                            c_vec_micro_temp = sc.diags(c_vec_micro[:,a].reshape((len(c_vec_micro),1))[:,0])
 
-                            lignes = np.shape(BF_support_temp)[0]
-                            colonnes = np.shape(BF_support_temp)[1]
-                            intermediar = sc.lil_matrix((lignes, colonnes))
+                            #lignes = np.shape(BF_support_temp)[0]
+                            #colonnes = np.shape(BF_support_temp)[1]
+                            #intermediar = sc.lil_matrix((lignes, colonnes))
 
-                            for i in range(lignes):
-                                intermediar[i,:] = c_vec_micro_temp[i,0] * BF_support_temp[i,:]
+                            #for i in range(lignes):
+                                #intermediar[i,:] = c_vec_micro_temp[i,0] * BF_support_temp[i,:]
 
-
+                            intermediar = c_vec_micro_temp @ BF_support_temp
                             grad_C_coef[a,:] = np.sum(sym_coef*p_c*intermediar/(a1*a2*a3*rho_e),axis=0)
                             #grad_C_coef[a,:] = np.sum(sym_coef*p_c*c_vec_micro_temp*BF_support_temp/(a1*a2*a3*rho_e),axis=0)
 
@@ -591,15 +600,17 @@ def compliance_grad_fun_csr(rho_e, P_rho, W, ELEMENTS, IND_mask, local_support, 
                         cont = 1 
                         for i in range(i_range_end):
                             for j in range(i+1,j_range_end):
-                                comp_temp = (c_vec_micro[:,a+cont]-c_vec_micro[:,i]-c_vec_micro[:,j]).reshape((len(c_vec_micro),1))
+                                comp_temp = sc.diags((c_vec_micro[:,a+cont]-c_vec_micro[:,i]-c_vec_micro[:,j]).reshape((len(c_vec_micro),1))[:,0])
 
                                 ### Ajout - Construction intermédiaire du produit terme à terme
-                                lignes = np.shape(BF_support_temp)[0]
-                                colonnes = np.shape(BF_support_temp)[1]
-                                intermediar = sc.lil_matrix((lignes, colonnes))
+                                #lignes = np.shape(BF_support_temp)[0]
+                                #colonnes = np.shape(BF_support_temp)[1]
+                                #intermediar = sc.lil_matrix((lignes, colonnes))
 
-                                for k in range(lignes):
-                                    intermediar[k,:] = comp_temp[k,0] * BF_support_temp[k,:]
+                                #for k in range(lignes):
+                                    #intermediar[k,:] = comp_temp[k,0] * BF_support_temp[k,:]
+                                
+                                intermediar = comp_temp @ BF_support_temp
 
                                 grad_C_coef[a+cont,:] = np.sum(sym_coef*p_c*intermediar/(2*a1*a2*a3*rho_e),axis=0)
                                 #grad_C_coef[a+cont,:] = np.sum(sym_coef*p_c*comp_temp*BF_support_temp/(2*a1*a2*a3*rho_e),axis=0)     
@@ -653,41 +664,44 @@ def compliance_grad_fun_csr(rho_e, P_rho, W, ELEMENTS, IND_mask, local_support, 
                             # If we have non design region the compliance of the elements belonging to that region are stocked in c_vec, 
                             # it contributes to the c_vec total but the punctual contribute has to be neglected
                             c_vec_macro = c_vec_macro[np.int_(ELEMENTS_macro[:,0])-1] 
-                            c_vec_macro_temp = c_vec_macro.reshape((len(c_vec_macro),1))
+                            c_vec_macro_temp = sc.diags(c_vec_macro.reshape((len(c_vec_macro),1))[:,0])
 
                             ### Ajout - Construction intermédiaire du produit terme à terme
-                            lignes = np.shape(BF_support_temp)[0]
-                            colonnes = np.shape(BF_support_temp)[1]
-                            intermediar = sc.lil_matrix((lignes, colonnes))
+                            #lignes = np.shape(BF_support_temp)[0]
+                            #colonnes = np.shape(BF_support_temp)[1]
+                            #intermediar = sc.lil_matrix((lignes, colonnes))
 
-                            for i in range(lignes):
-                                    intermediar[i,:] = c_vec_macro_temp[i,0] * BF_support_temp[i,:]
+                            #for i in range(lignes):
+                                    #intermediar[i,:] = c_vec_macro_temp[i,0] * BF_support_temp[i,:]
+                            
+                            intermediar = c_vec_macro_temp @ BF_support_temp
 
                             grad_c_M = np.sum(-(sym_coefM * p_c * intermediar)/rho_e_M,axis=0).reshape(len(IND_mask_M),1)
                             #grad_c_M = np.sum(-(sym_coefM * p_c * c_vec_macro_temp*BF_support_temp)/rho_e_M,axis=0).reshape(len(IND_mask_M),1)
                             
                             #print('{:.2E}      {:.2E}'.format(LA.norm(grad_c),LA.norm(grad_c_M)))           
                             grad_c_T = np.concatenate((grad_c,grad_c_M))
-                            
+                
                     else:
                         # Derivatives of compliance respecting to standard scale design variables
                         BF_support_temp = der_BSPLINE(IND_mask_active,BF_support)
                         
-                            
+                        
                         # If we have non design region the compliance of the elements belonging to that region are stocked in c_vec, 
                         # it contributes to the c_vec total but the punctual contribute has to be neglected
                         c_vec = c_vec[np.int_(ELEMENTS[:,0])-1] 
-                        c_vec_temp = c_vec.reshape((len(c_vec),1))
+                        c_vec_temp = sc.diags(c_vec.reshape((len(c_vec),1))[:,0])
                         #TODO
 
                         ### Ajout - Construction intermédiaire du produit terme à terme
-                        lignes = np.shape(BF_support_temp)[0]
-                        colonnes = np.shape(BF_support_temp)[1]
-                        intermediar = sc.lil_matrix((lignes, colonnes))
+                        #lignes = np.shape(BF_support_temp)[0]
+                        #colonnes = np.shape(BF_support_temp)[1]
+                        #intermediar = sc.lil_matrix((lignes, colonnes))
 
-                        for i in range(lignes):
-                                intermediar[i,:] = c_vec_temp[i,0] * BF_support_temp[i,:]
+                        #for i in range(lignes):
+                                #intermediar[i,:] = c_vec_temp[i,0] * BF_support_temp[i,:]
 
+                        intermediar = c_vec_temp @ BF_support_temp
 
                         if flag_penalisation == 'SIMP':
                             if flag_BCs == 'mixed-w':
