@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+
+<html>
+
+    <head>
+
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="style.css">
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <title>Première étape -  Optimisation topologique avec SANTO </title>
+
+    </head>
+
+    <body>
+
+
+        <div class="all">
+
+            <div class="nav">
+
+                <ul class="logo_2">
+                    <a href="https://artsetmetiers.fr/fr"><div class="logo_art"></div></a>
+                </ul>
+
+                <ul class="milieu">
+
+                    <ul class="normal">
+                        <a href="../index.html"><li>Accueil</li></a>
+                        <div class="trait"></div>
+                    </ul>
+
+                    <ul class="particulier">  
+                        <a href="../Agenda/index.html"><li>Agenda</li></a>
+                        <div class="trait"></div>
+                    </ul>
+
+                    <ul class="normal">
+                        <a href="../Contacts/index.html"><li>Contacts</li></a>
+                        <div class="trait"></div>
+                    </ul>
+
+                </ul>
+
+                <a href="https://www.bordeaux-inp.fr/fr"><div class="logo"></div></a>
+                
+            
+            </div>
+
+            <div class="titre_partie">
+
+                <div>
+                    Optimisation Topologique avec SANTO
+                </div>
+                
+                
+            </div>
+
+            <div class="titre_photo"></div>
+    
+            <div class="trait-niveau">
+
+                <div class="trait-intro"></div>
+
+            </div>
+
+            <div class="first">
+
+                <div class="contenu">
+
+                    <div class="ecrire-1">
+                        
+                        <div>
+                            <div class="espace-vertical"></div>
+                            <div class="gras">C'est quoi l'Optimisation Topologique ? :</div> </br>
+                            <p><b>L'Optimisation Topologique</b> est une méthode mathématique qui optimise la disposition des matériaux à l'intérieur d'un espace de conception donné. Elle prend en compte des paramètres de conception tels que les charges attendues, les conditions aux limites, les contraintes, les matériaux et les coûts. L'objectif principal de l'optimisation topologique est de maximiser les performances d'un système en créant des conceptions avec une masse minimale et une rigidité maximale, et elle est généralement intégrée tôt dans le processus de conception.</p> <br> <br>
+                        
+
+                            <div class="trait-fin"> </div>
+                            
+                        </div>
+                        
+                    </div>
+                    
+                    <!-- <div class="image-1"></div> -->
+
+                </div>
+                
+            </div>
+
+            <div class="first">
+
+                <div class="contenu">
+
+                    <div class="ecrire-1">
+                        
+                        <div>
+                            L'optimisation topologique implique la résolution d'équations mathématiques pour déterminer la distribution optimale des matériaux dans un domaine de conception donné. Les équations spécifiques peuvent varier en fonction de la méthode d'optimisation utilisée et des objectifs spécifiques de l'optimisation. Cependant, voici un exemple simplifié d'une équation couramment utilisée dans l'optimisation topologique : <br> <br>
+
+                            
+                            Supposons que nous ayons un domaine de conception 2D (par exemple, une plaque) et que nous souhaitions optimiser la distribution des matériaux pour minimiser la déformation sous une charge donnée. L'équation de base pour ce problème pourrait être la suivante :<br> <br>
+                            <div class="centrer equation">
+                                \( J = \frac{1}{2} \int_{\Omega} \sigma(\mathbf{u}) : \varepsilon(\mathbf{u}) \, d\Omega \)
+                            </div>
+                            <p>Où :</p>
+                            <div class="espace-vertical"></div>
+                            <ul>
+                                <li> \(J\) est la fonction objectif que nous cherchons à minimiser (par exemple, la déformation totale).</li>
+                                <li> \(\Omega\) représente le domaine de conception.</li>
+                                <li> \(\mathbf{u}\) est le champ de déplacement dans le domaine.</li>
+                                <li> \(\sigma(\mathbf{u})\) est le tenseur de contrainte dépendant du déplacement.</li>
+                                <li> \(\varepsilon(\mathbf{u})\) est le tenseur de déformation calculé à partir du déplacement.</li>
+                                <li> L'intégrale sur \(\Omega\) représente l'intégration sur tout le domaine.</li>
+                            </ul>
+                            <div class="espace-vertical"></div>
+                            <div class="espace-vertical"></div>
+
+                            L'objectif fondamental de cette équation réside dans la recherche de la disposition optimale des matériaux au sein du domaine <span class="omega">Ω</span>. Cette recherche vise à minimiser la déformation tout en respectant rigoureusement les contraintes et les conditions aux limites appropriées.
+                            <div class="espace-vertical"></div>
+                            Pour résoudre cette équation, on fait fréquemment appel à des méthodes numériques telles que la méthode Solid Isotropic Material with Penalization (SIMP). Cette méthode permet de discrétiser le domaine et de résoudre le problème de manière itérative. Elle est largement utilisée dans le domaine de l'optimisation topologique.
+                            <div class="espace-vertical"></div>
+                            Le fonctionnement de la méthode SIMP repose sur la discrétisation du domaine en éléments finis et l'ajustement de la densité des matériaux dans chaque élément. L'objectif est de minimiser ou maximiser une fonction objectif, tout en tenant compte des contraintes et des conditions aux limites. La méthode SIMP impose des pénalités aux éléments en fonction de leur densité, favorisant ainsi l'élimination du matériau superflu.
+                            <div class="espace-vertical"></div>
+                            L'optimisation topologique s'adapte à des objectifs spécifiques, des contraintes particulières et des méthodes variées. Cependant, la méthode SIMP demeure une approche répandue pour obtenir des conceptions optimales en minimisant la masse tout en maximisant la rigidité, dans le contexte de la résolution de ces équations.
+                                                        
+                            <div class="trait-fin"> </div>
+                        </div>
+                    </div>
+                    
+                    <!-- <div class="image-1"></div> -->
+
+                </div>
+            </div>
+            <div class="conteneur-image">
+                <img src="./images/OT_process.jpg" >
+                <div class="legende">
+                    Figure 2: Exemple d'optimisation topologique
+                    <br>
+                    Source : <a href="https://www.3dnatives.com/en/topology-optimisation140820184/" target="_blank">https://www.3dnatives.com/en/topology-optimisation140820184/</a>
+                </div>
+            </div>              
+              
+
+            
+            
+            <!-- <iframe width="500" height="320" class= "image-12" src="./asset/Enregistrement de l’écran 2022-11-06 à 15.58.15.mov"> </iframe> -->
+
+            
+            <div class="bas">
+
+                <a href="../deuxième_étape/index.html" class="test">
+                    <div class="suivant">Suivant - deuxième étape </div>
+                    <img src="./asset/arrow-right-long-solid.svg" alt="" class="fleche">
+                
+                </a>
+               
+            </div>
+
+
+
+
+
+        </div>
+
+
+
+
+
+    </body>
+
+
+</html>
+
