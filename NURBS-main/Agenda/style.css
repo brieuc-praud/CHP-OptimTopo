@@ -1,0 +1,261 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap');
+
+*{
+    padding: 0; 
+    margin: 0; 
+}
+
+body{
+    scroll-behavior: smooth;
+    /* background-image: url("./asset/givrage.jpeg");   */
+    background-size: cover;
+    background-position:top; 
+    background-repeat: no-repeat;
+
+}
+
+
+
+a{
+    text-decoration: none;
+}
+
+
+.nav{
+    position: fixed; 
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100px;
+    width: 100%;
+    /* background-color: rgba(0, 255, 255, 0); */
+    background-color: rgba(237, 242, 255, 0.416);
+    transition: width 0.5s, height 1s, background-color 0.4s, transform 0.5s;
+    z-index: 1000;
+
+}
+
+.nav li{
+    color : black; 
+}
+
+.nav:hover{
+    background-color: rgba(237, 242, 255, 0.416);
+    box-shadow: 2px 8px 32px rgba(91, 88, 88, 0.21);
+}
+
+.all{
+    
+    height: 280vh;
+
+}
+
+.logo{
+    
+    width: 200px;
+    height: 100px;
+
+    margin-left: 20px;
+    margin-bottom: 70px;
+    background-image: url("./asset/Logo_ENSEIRB-MATMECA-Bordeaux_INP.svg.png");  
+    background-size: cover;
+    background-repeat: no-repeat;
+
+}
+
+.milieu{
+    display: flex;
+    flex-direction: row;
+}
+
+.milieu li{
+    font-family: 'Poppins', sans-serif;
+    list-style: none;
+
+
+}
+
+
+.milieu .normal{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 70px;
+    margin : 5px 50px; 
+    padding: 8px 9px;
+    border-radius: 20px 0px 20px 0px;
+    transition: width 0.5s, height 1s, background-color 0.4s, transform 0.5s;
+
+}
+
+.particulier{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 70px;
+    margin : 5px 50px; 
+    border-radius: 20px 0px 20px 0px;
+    padding: 8px 18px;
+    transition: width 0.5s, height 1s, background-color 0.9s, transform 0.5s;
+
+    
+}
+
+.milieu ul:hover{
+    background-color: rgba(113, 113, 113, 0.569);
+
+}
+
+.trait{
+    background-color: black;
+    height: 2px;
+    width: 50px;
+}
+
+
+
+.logo_2{
+    display: flex;
+    flex-direction: row;
+}
+
+
+
+.logo_art{
+    width: 150px;
+    height: 70px;
+    margin-left: 30px;
+    margin-bottom: 20px;
+    background-image: url("./asset/Inr_logo_fr_rouge.png");
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin-top: 20px;
+}
+
+
+.titre_partie{
+    padding-top: 70px;
+
+    font-family: 'Poppins', sans-serif; 
+    font-weight: bold; 
+    width: 100%;  
+    height: 200px; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+    font-size: 40px;  
+    text-transform: uppercase; 
+    color:#000651;
+
+    background-color: eaeaea36; 
+
+    /* background-color: black;  */
+}
+
+.titre_photo{
+    width: 100%;  
+    height: 500px;
+    background-image: url("./asset/what-are-nurbs.jpg");  
+    background-size: cover;
+    background-position:center; 
+    background-repeat: no-repeat;
+
+}
+
+
+.titre_photo-1{
+    width: 100%;  
+    height: 500px;
+    background-image: url("./asset/what-are-nurbs.jpg");  
+    background-size: cover;
+    background-position:center; 
+    background-repeat: no-repeat;
+
+}
+
+.trait-niveau{
+
+    display: flex; 
+    justify-content: center; 
+    align-content: center; 
+    width: 100%;  
+    height: 50px;
+
+}
+
+.trait-intro{
+
+    margin-top: 60px; 
+    width: 50%;  
+    height: 2px;
+    background-color:#000000bc;  
+}
+
+
+.bloc_note{
+
+
+
+    width: 100%;  
+    height: 400px;
+    background-color: rgb(255, 255, 255);
+
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.mois{
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+}
+
+.mois_novembre{
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
+}
+
+.mois div{
+    font-family: "Poppins", sans-serif;
+    font-size: 30px;
+    font-weight: bold;
+    text-decoration: underline;
+    color: #000651;
+
+
+}
+
+.mois_novembre div{
+    font-family: "Poppins", sans-serif;
+    font-size: 30px;
+    font-weight: bold;
+    text-decoration: underline;
+    color: #000651;
+}
+
+.task{
+
+    margin-top: 40px;
+    font-family: "Poppins", sans-serif;
+    font-size: 15px;
+}
+
+.task li{
+    text-align: center;
+}
+
+.titre{
+    text-align: center;
+    margin-bottom: 10px;
+    font-family: "Poppins", sans-serif;
+    font-size: 20px;
+    font-weight: bold; 
+}

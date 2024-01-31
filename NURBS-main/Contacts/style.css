@@ -1,0 +1,390 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap');
+
+*{
+    padding: 0; 
+    margin: 0; 
+}
+
+body{
+    scroll-behavior: smooth;
+    background-image: url("./asset/geom.png");   
+    background-size: cover;
+    background-position:top; 
+    background-repeat: no-repeat;
+
+}
+
+li{
+
+    list-style-type: none;
+}
+
+a{
+    text-decoration: none;
+}
+
+
+.nav{
+    position: fixed; 
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100px;
+    width: 100%;
+    /* background-color: rgba(0, 255, 255, 0); */
+    background-color: rgba(237, 242, 255, 0.416);
+    transition: width 0.5s, height 1s, background-color 0.4s, transform 0.5s;
+    z-index: 1000;
+
+}
+
+.nav li{
+    color : black; 
+}
+
+.nav:hover{
+    background-color: rgba(237, 242, 255, 0.416);
+    box-shadow: 2px 8px 32px rgba(91, 88, 88, 0.21);
+}
+
+.all{
+    
+    height: 150vh;
+
+}
+
+.logo{
+    
+    width: 200px;
+    height: 100px;
+
+    margin-left: 20px;
+    margin-bottom: 70px;
+    background-image: url("./asset/Logo_ENSEIRB-MATMECA-Bordeaux_INP.svg.png");  
+    background-size: cover;
+    background-repeat: no-repeat;
+
+}
+
+.milieu{
+    display: flex;
+    flex-direction: row;
+}
+
+.milieu li{
+    font-family: 'Poppins', sans-serif;
+
+}
+
+.milieu .normal{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 70px;
+    margin : 5px 50px; 
+    padding: 8px 9px;
+    border-radius: 20px 0px 20px 0px;
+    transition: width 0.5s, height 1s, background-color 0.4s, transform 0.5s;
+
+}
+
+.particulier{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 70px;
+    margin : 5px 50px; 
+    border-radius: 20px 0px 20px 0px;
+    padding: 8px 18px;
+    transition: width 0.5s, height 1s, background-color 0.9s, transform 0.5s;
+
+    
+}
+
+.milieu ul:hover{
+    background-color: rgba(113, 113, 113, 0.569);
+
+}
+
+.trait{
+    background-color: black;
+    height: 2px;
+    width: 50px;
+}
+
+
+
+.logo_2{
+    display: flex;
+    flex-direction: row;
+}
+
+
+
+.logo_art{
+    width: 150px;
+    height: 70px;
+    margin-left: 30px;
+    margin-bottom: 20px;
+    background-image: url("./asset/Inr_logo_fr_rouge.png");
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin-top: 20px;
+}
+
+
+.titre_partie{
+    padding-top: 70px;
+
+    font-family: 'Poppins', sans-serif; 
+    font-weight: bold; 
+    width: 100%;  
+    height: 200px; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+    font-size: 40px;  
+    text-transform: uppercase; 
+    color:#000651;
+
+    background-color: eaeaea36; 
+
+    /* background-color: black;  */
+}
+
+.titre_photo{
+    width: 10%;  
+    height: 200px;
+    background-image: url("./asset/nurbs.png");  
+    background-size: cover;
+    background-position:center; 
+    background-repeat: no-repeat;
+
+}
+
+
+
+.trait-niveau{
+
+    display: flex; 
+    justify-content: center; 
+    align-content: center; 
+    width: 100%;  
+    height: 50px;
+
+}
+
+.trait-intro{
+
+    margin-top: 60px; 
+    width: 50%;  
+    height: 2px;
+    background-color:#00000014;  
+}
+
+
+.espace{
+
+    display: flex;
+    flex-direction: row;
+    margin-top: 40px;
+    height: 500px;
+    width: 100%;
+
+}
+
+
+.espace_personne{
+
+    display: flex; 
+    flex-direction: column;
+    align-items: center;
+    width: 25%;
+    height: 500px;
+    font-family: "Poppins", sans-serif;
+    font-size: 20px;
+
+}
+
+.elem_contact{
+    font-size: 17px;
+
+}
+
+
+.photo-1{
+    display: flex; 
+    align-items: flex-end;
+    height: 300px;
+    width: 250px;
+    background-image: url(./asset/mariam.JPG);     
+    background-size: cover;
+    background-position:center; 
+    background-repeat: no-repeat;
+    margin: 50px 0px;
+    border-radius: 20px;
+}
+
+.prenom_text{
+    transform: rotate(0deg);
+    margin-bottom: 10px;
+    margin-left: 48px;
+    color: rgb(20, 20, 20);
+    transition: width 1s, height 1s, background-color 1s, transform 1s, rotate 1s, translate 1s;
+    font-size: 20px;
+    font-family: "Poppins", sans-serif;
+    font-style: italic;
+    text-decoration: underline;
+}
+
+
+
+.photo-2{
+    display: flex; 
+    align-items: flex-end;
+    height: 300px;
+    width: 250px;
+    background-color: cornflowerblue;
+    background-image: url(./asset/Aurélien.JPG);     
+    background-size: cover;
+    background-position:center; 
+    background-repeat: no-repeat;
+    margin: 50px 0;
+    border-radius: 20px;
+
+}
+
+.photo-3{
+    display: flex; 
+    align-items: flex-end;
+    height: 300px;
+    width: 250px;
+    background-color: brown;
+    background-image: url(./asset/Brieuc.JPG);     
+    background-size: cover;
+    background-position:center; 
+    background-repeat: no-repeat;
+    margin: 50px 0;
+    border-radius: 20px;
+
+}
+
+.photo-4{
+    display: flex; 
+    align-items: flex-end;
+    height: 300px;
+    width: 250px;
+    background-color: coral;
+    background-image: url(./asset/Thomas.JPG);     
+    background-size: cover;
+    background-position:center; 
+    background-repeat: no-repeat;
+    margin: 50px 0;
+    border-radius: 20px;
+
+}
+
+.photo-5{
+    display: flex; 
+    align-items: flex-end;
+    height: 300px;
+    width: 250px;
+    background-color: coral;
+    background-image: url(./asset/Samuel.JPG);     
+    background-size: cover;
+    background-position:center; 
+    background-repeat: no-repeat;
+    margin: 50px 0;
+    border-radius: 20px;
+
+}
+
+.photo-1:hover{
+    cursor: pointer;
+}
+.photo-2:hover{
+    cursor: pointer;
+}.photo-3:hover{
+    cursor: pointer;
+}.photo-4:hover{
+    cursor: pointer;
+} .photo-5:hover{
+    cursor: pointer;
+}
+
+.photo-1{
+    box-shadow: 4px 2px 29px 0 rgba(66, 156, 146, 0.563);
+    transition: box-shadow 1s; 
+}
+
+.photo-1:hover{
+    box-shadow: 4px 2px 29px 0 rgba(66, 156, 89, 0.469);
+}
+
+.photo-2{
+    box-shadow: 4px 2px 29px 0 rgba(70, 156, 66, 0.63);
+}
+.photo-2:hover{
+    box-shadow: 4px 2px 29px 0 rgba(66, 156, 144, 0.63);
+}
+
+.photo-3{
+    box-shadow: 4px 2px 29px 0 rgba(156, 150, 66, 0.63);
+}
+.photo-3:hover{
+    box-shadow: 4px 2px 29px 0 rgba(98, 156, 66, 0.63);
+}
+
+.photo-4{
+    box-shadow: 4px 2px 29px 0 rgba(106, 66, 156, 0.63);
+}
+.photo-4:hover{
+    box-shadow: 4px 2px 29px 0 rgba(146, 66, 156, 0.63);
+}
+.photo-5{
+    box-shadow: 4px 2px 29px 0 rgba(106, 66, 156, 0.63);
+}
+.photo-5:hover{
+    box-shadow: 4px 2px 29px 0 rgba(146, 66, 156, 0.63);
+}
+
+
+.photo-1:hover .prenom_text{
+    transform: translate(15px); 
+    text-shadow: 0.4px 1px 2px;
+}
+
+.photo-2:hover .prenom_text{
+    transform: translate(25px); 
+    text-shadow: 0.4px 1px 2px;
+}
+
+.photo-3:hover .prenom_text{
+    transform: translate(15px); 
+    text-shadow: 0.4px 1px 2px;
+}
+
+.photo-4:hover .prenom_text{
+    transform: translate(12px); 
+    text-shadow: 0.4px 1px 2px;
+}
+.photo-5:hover .prenom_text{
+    transform: translate(12px); 
+    text-shadow: 0.4px 1px 2px;
+}
+
+
+.prenom{
+    font-style: italic;
+    text-decoration: underline;
+}
+
+.white{
+    color: white;
+    text-decoration: underline;
+    text-decoration-color: white;
+}

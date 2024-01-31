@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+
+<html>
+
+    <head>
+
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="style.css">
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <title>Deuxième étape - Choix d'une bibliothèque Python</title>
+
+    </head>
+
+    <body>
+        <div class="all">
+            <div class="nav">
+                <ul class="logo_2">
+                    <a href="https://artsetmetiers.fr/fr"><div class="logo_art"></div></a>
+                </ul>
+
+                <ul class="milieu">
+
+                    <ul class="normal">
+                        <a href="../index.html"><li>Accueil</li></a>
+                        <div class="trait"></div>
+                    </ul>
+
+                    <ul class="particulier">  
+                        <a href="../Agenda/index.html"><li>Agenda</li></a>
+                        <div class="trait"></div>
+                    </ul>
+
+                    <ul class="normal">
+                        <a href="../Contacts/index.html"><li>Contacts</li></a>
+                        <div class="trait"></div>
+                    </ul>
+
+                </ul>
+
+                <a href="https://www.bordeaux-inp.fr/fr"><div class="logo"></div></a>
+            </div>
+            <div class="titre_partie">
+                <div>
+                    Choix d'une bibliothèque Python
+                </div>
+            </div>
+
+            <div class="titre_photo">
+
+
+            </div>
+    
+            <div class="trait-niveau">
+
+                <div class="trait-intro">
+
+                </div>
+
+            </div>
+
+
+            <div class="first">
+
+                <div class="contenu">
+
+                    <div class="legende_1">
+                        <div class="image-1" id="fig:speedup_dask"> <img src="./images/speedup_dask_.png" class="test-1"></div>
+                        <div class="image-1-legende">Figure 1&nbsp;: <em>Speedup</em> par <strong>Dask</strong> pour des <strong>chunks</strong> de petites tailles </div>
+                    </div>
+                    <div class="legende_1">
+                        <div class="image-1" id="fig:speedup_dask_2"> <img src="./images/speedup_dask_grand.png" class="test-2"> </div>
+                        <div class="image-1-legende">Figure 2&nbsp;: <em>Speedup</em> par <strong>Dask</strong> pour des <strong>chunks</strong> de taille adaptée </div>
+                    </div>
+                    
+                    <div class="ecrire_3">
+                        
+                        <div>
+                 
+                            
+                            <div class="gras">Bibliothèque <b>Dask</b>:</div> <br>
+                            <p>
+                                La bibliothèque <strong>Dask</strong> semble surtout intéressante dans le cas où les matrices manipulées sont trop grandes pour passer en RAM. En effet, cette bibliothèque permet de décomposer toute matrice en <strong>chunks</strong> plus petits sur lesquels les opérations peuvent être effectuées en les chargeant l'une après l'autre en mémoire. <em>A priori</em>, cela ne sera pas nécessaire si la matrice est suffisamment creuse et que l'on utilise une méthode de stockage adéquate (voir section <a href="#sec:csr">CSR</a>).
+                            </p>
+                            <p>
+                                Cette division en <strong>chunks</strong> permet également de traiter les opérations en parallèle en traitant chaque sous-matrice dans un processus séparé. Cependant, les opérations de <strong>NumPy</strong> sont elles-mêmes parallélisées à bas niveau <span class="footnote">Cela dépend en réalité de l'implémentation de <strong>BLAS</strong> utilisée ; il sera judicieux de s'assurer que <strong>NumPy</strong> utilise effectivement une version parallèle de <strong>BLAS</strong> sur la machine d'exécution.</span> ce qui fait que le <strong>speedup</strong> de <strong>Dask</strong> par rapport à <strong>NumPy</strong> reste très modéré et dépend à la fois de la taille de la matrice et de la taille de <strong>chunks</strong> considérée (figures <a href="#fig:speedup_dask">1</a> et <a href="#fig:speedup_dask_2">2</a>). Le <strong>speedup</strong> maximal obtenu sur 8 cœurs est compris entre 2 et 3 pour le produit d'une matrice par un vecteur. Cela n'est pas négligeable mais la couche de complexité apportée au code limite l'intérêt d'utiliser cette bibliothèque afin d'accélérer les calculs. Des tests seraient à envisager pour connaître le <strong>speedup</strong> sur une machine possédant plus de cœurs.
+                            </p>                            
+                            <div class="trait-fin"> </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="first">
+                    <div class="contenu">
+                        <div class="ecrire">
+                            <div>
+                                <div class="gras">Bibliothèque <b>NumExpr</b> :</div> <br>
+                                <p>
+                                    <strong>NumExpr</strong> est une bibliothèque Python permettant l'optimisation de calculs numériques. Ces optimisations reposent sur plusieurs points&nbsp;:
+                                </p>
+                                <!-- Ajout d'un espace avant la liste -->
+                                <div style="margin-top: 20px;"></div>
+                                <ul class="task"> 
+                                    <div style="margin-top: 20px;"></div> 
+                                    <li><strong>- Évaluation paresseuse&nbsp;:</strong> <strong>NumExpr</strong> utilise une évaluation paresseuse des expressions, c'est-à-dire qu'il n'évalue que les parties de l'expression strictement nécessaires pour obtenir le résultat final permettant de limiter la création inutile de tableaux temporaires économisant du temps et de la mémoire.</li>
+                                    <div style="margin-top: 20px;"></div> 
+                                    <li><strong>- SIMD (Single Instruction Multiple Data)&nbsp;:</strong> <strong>NumExpr</strong> tire parti des instructions SIMD disponibles sur la plupart des processeurs aujourd'hui. Ces instructions permettent d'effectuer des opérations simultanées sur plusieurs éléments de tableaux améliorant donc les performances.</li>
+                                    <div style="margin-top: 20px;"></div> 
+                                    <li><strong>- Optimisation de mémoire&nbsp;:</strong> cette optimisation de mémoire inclut la gestion intelligente de la mémoire tampon (mémoire contenant les données temporaires de calculs ou autres) et réduit la nécessité de création de tableaux temporaires.</li>
+                                    <div style="margin-top: 20px;"></div> 
+                                    <li><strong>- Parallélisme&nbsp;:</strong> <strong>NumExpr</strong> peut également tirer parti du parallélisme sur les processeurs multi-cœurs. Les tâches indépendantes sont alors divisées et calculées indépendamment permettant un gain de temps.</li>
+                                    <div style="margin-top: 20px;"></div> 
+                                    <li><strong>- Combinaison avec NumPy&nbsp;:</strong> <strong>NumExpr</strong> est conçu pour s'intégrer facilement avec <strong>NumPy</strong> et permet un gain de temps significatif lorsque les bibliothèques <strong>NumPy</strong> et <strong>NumExpr</strong> sont combinées.</li>
+                                </ul>
+                                
+
+                                <div style="margin-top: 20px;"></div> 
+                                <p>
+                                    Cependant, <strong>NumExpr</strong> possède une limite importante&nbsp;: son inefficacité pour travailler sur des données croisées. <strong>NumExpr</strong> possède une réelle plus-value lorsqu'on travaille principalement à partir de vecteurs, pour des opérations simples comme l'addition de 2 vecteurs, la multiplication d'un vecteur par un scalaire, etc. Cependant, celui-ci n'est plus du tout rentable pour le travail sur des matrices comme le montre la figure <a href="#fig:speedup_numexpr">3</a>.
+                                </p>
+                                <div class="trait-fin"> </div>
+                            </div>
+                        </div>
+                        <div class="legende_1">
+                            <div class="image-2" id="fig:speedup_numexpr"><img src="./images/speedup NumExpr sur une addition.png" class="test-65"></div>
+                            <div class="image-1-legende">Figure 3&nbsp;: Comparaison des performances entre NumPy et NumExpr sur une addition de 2 matrices </div>
+                        </div>
+                    </div>
+            </div>
+            <div class="first-66">
+                <div class="contenu">
+                    <div class="legende-5">
+                        <div class="image-4" id="fig:numbapuiss"></div>
+                        <div class="image-1-legende">Figure 4&nbsp;: Comparaison des Performances entre NumPy et NumPy/Numba Puissance et addition de vecteurs \( a^5 + b^2 \) </div>
+                    </div>
+                    <div class="legende-5">
+                        <div class="image-5" id="fig:5"></div>
+                        <div class="image-5-legende">Figure 5&nbsp;: Comparaison des performances entre Numpy et Numpy/Numba sur un produit matriciel   </div>
+                        <div class="image-6" id="fig:6"></div>
+                        <div class="image-5-legende">Figure 6&nbsp;: Comparaison des performances entre Numpy et Numpy/Numba sur une transposée de matrice </div>
+                    </div>
+                    <div class="ecrire-100">
+                        <div>
+                            <div class="gras">Bibliothèque <b>Numba</b>:</div> <br>
+                            <p>
+                                <strong>Numba</strong> est un puissant compilateur Just-In-Time (JIT) pour Python qui se concentre sur l'optimisation des performances des calculs scientifiques. Il excelle dans l'accélération des fonctions Python en les compilant en code machine natif, offrant ainsi des performances comparables à celles des langages de bas niveau comme le C ou le Fortran. Cependant, Numba a certaines limitations lorsqu'il s'agit de traiter des opérations plus complexes et notamment des opérations matricielles.
+                            </p>
+                            <p>
+                                L'une des caractéristiques majeures de <strong>Numba</strong> est sa capacité à paralléliser et à optimiser les boucles numériques. Il peut accélérer efficacement les fonctions Python qui effectuent des calculs terme à terme sur des tableaux comme illustré sur le graphique <a href="#fig:numbapuiss">Figure 4</a>.
+                            </p>   
+                            <p>
+                                Cependant, <strong>Numba</strong> ne peut accélérer les fonctions déjà programmées à bas niveau comme celles de NumPy. Les figures <a href="#fig:5">5</a> et <a href="#fig:6">6</a> illustrent ce problème.
+                            </p>  
+                            <p>
+                                En résumé, <strong>Numba</strong> est un outil puissant pour l'optimisation de performances en Python, idéal pour accélérer les opérations de calcul terme à terme. En revanche il ne peut accélerer davantage les calculs de NumPy.
+                            </p>                       
+                            <div class="trait-fin"> </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div class="legende">
+                <div class="image-5"></div>
+                <div class="image-1-legende"> Figure 2 : Legende bla-bla-bla </div>
+            </div> -->
+
+            <div class="first-2">
+
+                <div class="contenu-2">
+
+                    <div class="ecrire-1">
+                        
+                        <div>
+                            <div class="gras">La bibliothèque <strong>CuPy</strong> </div> <br>
+                            <p>
+                                La bibliothèque <strong>CuPy</strong> permet d'exploiter la puissance d'une carte graphique <strong>Nvidia</strong> (ou <strong>AMD</strong> en expérimental) pour réaliser des opérations sur les tableaux. Elle se veut très proche de <strong>NumPy</strong> en termes d'utilisation ce qui fait qu'elle est très simple à implémenter dans un code existant. Le <strong>speedup</strong> obtenu par rapport à <strong>NumPy</strong> pour un produit matrice-vecteur sur une carte graphique <strong>GTX 1050</strong> est présenté en figure <a href="#fig:7">7</a>. Cette solution semble la plus prometteuse puisque, que ce soit sur l'allocation de la matrice aléatoire ou le produit matrice-vecteur, le speedup obtenu varie de 10 à 240.
+                            </p>
+                            <div class="trait-fin"> </div>
+                        </div>
+                    </div>
+                    <div class="groupe-image">
+                        <div class="image-1" id="fig:7"><img src="./images/Cupy speedup big.png" class="test-65"></div>
+                        <div class="image-1-legende">Figure 7&nbsp;: Speedup par CuPy en fonction de la taille de la matrice carrée considérée</div>
+                    </div>
+                </div>
+            </div>
+            <div class="first">
+                <div class="contenu">
+                    <div class="image-grid">
+                        <!-- Images et leurs légendes -->
+                        <div class="image-container">
+                            <img src="./images/stoxkage CSR.png" alt="Tableau CSR" class="image-auto-1" id="tabCSR">
+                            <div class="image-1-legende">Tableau 1&nbsp;: Exemple d'un stockage CSR</div>
+                        </div>
+                        
+                        <div class="image-container">
+                            <img src="./images/Prod.png" alt="Speed-up Produit Matriciel" class="image-auto-1" id="speedupCSR1">
+                            <div class="image-1-legende">Figure 8&nbsp;: Speed-up Produit Matriciel en Fonction du Nombre de Lignes de la Matrice</div>
+                        </div>
+                        
+                        <div class="image-container">
+                            <img src="./images/Sum.jpg" alt="Speed-up Somme" class="image-auto-1" id="speedupCSR2">
+                            <div class="image-1-legende">Figure 9&nbsp;: Speed-up Somme en Fonction du Nombre de Lignes de la Matrice</div>
+                        </div>
+                        
+                        <div class="image-container">
+                            <img src="./images/Vec_bri.png" alt="Speed-up Produit Matrice Vecteur" class="image-auto-1" id="speedupCSR3">
+                            <div class="image-1-legende">Figure 10&nbsp;: Speed-up Produit Matrice Vecteur en Fonction du Nombre de Lignes de la Matrice</div>
+                        </div>
+                    </div>
+                
+                    <div class="text-container">
+                            
+                        <div>
+                            <div class="text-content">
+                                <h2 id="sec:csr">Stockage CSR (Compressed Sparse Row)</h2>
+                                <div style="margin-top: 20px;"></div> <p>Le stockage <strong>CSR</strong> est un format de stockage utilisé pour les matrices creuses. Ce format permet de stocker les éléments non nuls d'une matrice creuse de manière compacte, ce qui aide à réduire l'espace mémoire occupé par la matrice.</p>
+                                <p>Le stockage CSR repose sur l'utilisation de trois tableaux :</p>
+                                <ul>
+                                    <div style="margin-top: 20px;"></div> <li><strong> - Tableau A :</strong> Ce tableau stocke les valeurs des éléments non nuls de la matrice.</li>
+                                    <div style="margin-top: 20px;"></div> <li><strong> - Tableau IA :</strong> C'est un tableau de taille <code>n+1</code>, où <code>n</code> est le nombre de lignes. Il est défini de façon récursive :
+                                        <ul>
+                                            <div style="margin-top: 20px;"></div>  <li><code>. IA[0] = 0</code></li>
+                                            <li><code>. IA[i+1] = IA[i] + NNN_i </code>
+                                            <br>
+                                            où <code>NNN_i</code> représente le nombre d'entrées non nuls de la ligne <code>i</code>.</li>
+                                            <div style="margin-top: 20px;"></div> 
+                                        </ul>
+                                    </li>
+                                    <div style="margin-top: 20px;"></div> <li><strong> - Tableau JA :</strong> Il contient les indices des colonnes des éléments non nuls de la matrice.</li>
+                                </ul>
+                                <div style="margin-top: 20px;"></div> <p>Considérons une matrice de taille <code>(n, n)</code> avec <code>p%</code> de coefficients non-nuls. Le passage d'un stockage de <code>n<sup>2</sup></code> valeurs à <code>3pn<sup>2</sup>/100</code> est avantageux pour le stockage quand <code>p/100 ≤ 1/3</code>.</p>
+                                <div style="margin-top: 20px;"></div><p>En résumé, le stockage CSR permet d'économiser une quantité de mémoire significative s'il y a suffisamment de zéros et offre un accroissement de performance notable pour certaines opérations. Par exemple, pour le produit de deux matrices creuses avec seulement 0.02% de coefficients non-nuls et un stockage CSR, un speed-up d'environ 40 000 est possible avec 10 000 lignes, de 600 pour l'addition, et de même pour le produit matrice-vecteur avec un speed-up de 150.</p>
+                            </div>
+                            
+
+                            <div class="trait-fin"> </div>
+                        
+                        </div>
+    
+                    </div>
+
+                </div>
+            
+            </div>
+
+
+
+            <div class="first-10">
+
+                <div class="contenu-texte">
+        
+                    <h2>Méthode de convergence GCMMA</h2>
+                    <div style="margin-top: 20px;"></div>
+                    <p>
+                        GCMMA (Globally Convergent Method of Moving Asymptotes) est une dérivée de la méthode MMA visant à assurer la convergence globale de problèmes d'optimisation, en particulier pour des problèmes d'optimisation non-linéaires sous contraintes. Elle offre de meilleures performances, notamment en termes de temps de calcul, par rapport à la méthode MMA.
+                    </p>
+                    <div style="margin-top: 20px;"></div>
+                    <p>
+                        La méthode GCMMA se distingue de la méthode MMA classique par la présence d'itérations "intérieures" (d'indice ν) et "extérieures" (d'indice k). Dans chaque itération extérieure, il peut y avoir plusieurs itérations intérieures ou aucune.
+                    </p>
+                    <div style="margin-top: 20px;"></div>
+                    <p>
+                        Les méthodes MMA (et GCMMA par extension) sont adaptées à des problèmes d'optimisation de la forme suivante :
+                    </p>
+                </div>
+                
+            </div>
+            <div class="first-10">
+
+                <div class="contenu-texte">
+                    <img src="./images/KKT_1.png" alt="Conditions optimales KKT obtenues pour le sous-problème" />
+                    <div class="image-1-legende"> Figure 11 : Conditions optimales KKT obtenues pour le sous-problème</div>
+                    <div style="margin-top: 20px;"></div><p>
+                        Minimiser : f<sub>0</sub>(x) + a<sub>0</sub>z + Σ (c<sub>i</sub>y<sub>i</sub> + (1/2) d<sub>i</sub>y<sub>i</sub><sup>2</sup>)<br>
+                        Sous réserve que : f<sub>i</sub>(x) - a<sub>i</sub>z - y<sub>i</sub> ≤ 0
+                    </p>
+                    <div style="margin-top: 20px;"></div><p>
+                        où x ∈ X, où X est défini par X = {x ∈ ℝ<sup>n</sup> | x<sub>j</sub><sup>min</sup> ≤ x<sub>j</sub> ≤ x<sub>j</sub><sup>max</sup>, j = 1, ..., n}, où x<sub>j</sub><sup>min</sup> et x<sub>j</sub><sup>max</sup> sont des nombres réels correspondants aux limites du problème, où les f<sub>i</sub> sont des fonctions continûment différentiables, et où les a<sub>i</sub>, c<sub>i</sub>, d<sub>i</sub> sont des réels positifs ou nuls.
+                    </p>
+                </div>
+                
+            </div>
+
+            <div class="first-10">
+
+                <div class="contenu-texte">
+                    <p>
+                        L'avantage de cette méthode est qu'à chaque itération intérieure, il n'y a pas besoin de recalculer le gradient ∇f<sub>i</sub>(x<sup>(k)</sup>) car il ne change pas, l'itération étant toujours la même. Cela représente un point important car le calcul du gradient est souvent le plus coûteux en terme de temps de calcul dans un problème d'optimisation.
+                    </p>
+                    <div style="margin-top: 20px;"></div><p>
+                        La méthode offre plusieurs avantages, en plus du calcul du gradient réalisé une seule fois par itération&nbsp;:
+                    </p>
+                    <div style="margin-top: 20px;"></div><ul>
+                        <li style="margin-top: 20px;"><strong> - Convergence globale&nbsp;:</strong> contrairement à la méthode MMA qui peut parfois converger vers des optimum locaux, la méthode GCMMA est conçue pour converger vers des optimum globaux&nbsp;;</li>
+                        <li style="margin-top: 20px;"><strong> - Flexibilité&nbsp;:</strong> GCMMA permet de modéliser une plus grande variété de problèmes d'optimisation multidisciplinaires&nbsp;;</li>
+                        <li style="margin-top: 20px;"><strong> - Moins de dépendance aux conditions initiales&nbsp;:</strong> même si celles-ci sont moins précises.</li>
+                    </ul>
+                    
+                    <div style="margin-top: 20px;"></div><p>
+                        Les sous-problèmes peuvent être résolus en utilisant différentes approches, notamment l'approche "dual" et l'approche "primal-dual interior-point". Ces méthodes seront détaillées ultérieurement.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="first-10">
+            <div class="contenu-texte">
+                <h2>Implémentation</h2>
+                <div style="margin-top: 20px;"></div><h3>Compliance et volume en version CSR ou non</h3>
+                
+                <div style="margin-top: 20px;"></div><p><strong>Compliance&nbsp;:</strong> Fonction de contrainte qui évalue la conformité de la structure. Elle prend en arguments les caractéristiques des éléments de la matrice ELEMENTS, leurs indices via <code>local_support</code> optimisé précédemment, ainsi que <code>BF_support</code>, la matrice des fonctions de base (u1, u2, u3). Elle renvoie <code>grad_c_T</code>, un vecteur de gradients de la fonction de contrainte.</p>
+            
+                <div style="margin-top: 20px;"></div><p><strong>Volume&nbsp;:</strong> Fonction qui évalue le volume de la structure et, plus particulièrement, la contrainte en chaque point du volume. Elle prend en arguments ELEMENTS, les indices IND_mask, local_support et BF_support (mêmes arguments) et renvoie également un vecteur de gradients de la fonction évaluant le volume de la structure.</p>
+            
+                <div style="margin-top: 20px;"></div><h3>Implémentation CSR des 2 fichiers&nbsp;:</h3>
+                <ul>
+                    <div style="margin-top: 20px;"></div><li>- Choix à nouveau de la librairie scipy.sparse adaptée aux matrices creuses afin d'optimiser le temps de calcul mais aussi l'espace mémoire.</li>
+                    <div style="margin-top: 20px;"></div><li>- Optimisation de certaines opérations effectuées entre <code>BF_support_temp</code> et les fonctions volume ou compliance. BF_support_temp est une matrice CSR/LIL déjà construite précédemment dans local_support. Dans les fichiers volume et compliance, nous construisons les gradients en multipliant composante par composante les termes des fonctions volume (exemple voltemp) et compliance (exemple comptemp) par cette matrice. Cependant, ces deux éléments n'ont pas le même format, il est donc nécessaire de passer les fonctions volume et compliance sous la forme creuse (et même sous forme diagonale pour faciliter les calculs terme à terme) avec sc.diags. Cela optimise les calculs des gradients et permet ainsi un gain de temps considérable.</li>
+                    <div style="margin-top: 20px;"></div><li>- Testgradient permet de tester si l'implémentation CSR concorde avec la version sans CSR de construction des gradients.</li>
+                </ul>
+            </div>
+            
+            
+        </div>
+
+
+
+
+
+        <div class="bas">
+
+
+            <a href="../première_étape/index.html" class="test">
+                <img src="./asset/arrow-right-long-solid.svg" alt="" class="fleche_gauche">
+                <div class="suivant">Précédent - première étape </div>
+            </a>
+
+            <a href="../troisième_étape/index.html" class="test">
+                <div class="suivant">Suivant - troisième étape </div>
+                <img src="./asset/arrow-right-long-solid.svg" alt="" class="fleche">
+            </a>
+           
+        </div>
+
+
+
+
+
+    </body>
+
+
+</html>
+

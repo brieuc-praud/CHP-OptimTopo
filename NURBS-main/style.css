@@ -1,0 +1,292 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap');
+
+*{
+    padding: 0; 
+    margin: 0; 
+}
+
+body{
+    scroll-behavior: smooth;
+    background-image: url("./asset/what-are-nurbs.jpg");  
+    background-size: cover;
+    background-position:top; 
+    background-repeat: no-repeat;
+    position: relative;
+
+}
+
+li{
+
+    list-style-type: none;
+}
+
+a{
+    text-decoration: none;
+}
+
+
+.nav{
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100px;
+    width: 100%;
+    background-color: rgba(0, 255, 255, 0);
+    transition: width 0.5s, height 1s, background-color 0.4s, transform 0.5s;
+    z-index: 1000;
+
+
+}
+
+.nav li{
+    color : black; 
+}
+
+.nav:hover{
+    background-color: rgba(237, 242, 255, 0.416);
+    box-shadow: 2px 8px 32px rgba(91, 88, 88, 0.21);
+
+}
+
+.all{
+
+    height: 100vh;
+
+}
+
+.avion{
+    width: 100%;
+    height: 100vh;
+}
+
+.logo{
+    
+    width: 200px;
+    height: 100px;
+
+    margin-left: 20px;
+    margin-bottom: 70px;
+    background-image: url("./asset/Logo_ENSEIRB-MATMECA-Bordeaux_INP.svg.png");  
+    background-size: cover;
+    background-repeat: no-repeat;
+
+}
+
+.milieu{
+    display: flex;
+    flex-direction: row;
+}
+
+.milieu li{
+    font-family: 'Poppins', sans-serif;
+
+}
+
+.milieu .normal{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 70px;
+    margin : 5px 50px; 
+    padding: 8px 9px;
+    border-radius: 20px 0px 20px 0px;
+    transition: width 0.5s, height 1s, background-color 0.4s, transform 0.5s;
+
+}
+
+.particulier{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 70px;
+    margin : 5px 50px; 
+    border-radius: 20px 0px 20px 0px;
+    padding: 8px 18px;
+    transition: width 0.5s, height 1s, background-color 0.9s, transform 0.5s;
+
+    
+}
+
+.milieu ul:hover{
+    background-color: rgba(113, 113, 113, 0.569);
+
+}
+
+.trait{
+    background-color: black;
+    height: 2px;
+    width: 50px;
+}
+
+
+
+.logo_2{
+    display: flex;
+    flex-direction: row;
+}
+
+
+.logo_art{
+    width: 150px;
+    height: 70px;
+    margin-left: 30px;
+    margin-bottom: 20px;
+    background-image: url("./asset/Inr_logo_fr_rouge.png");
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin-top: 20px;
+}
+
+
+
+.etapes{
+    padding-top: 120px;
+    display: flex ;
+    flex-direction: column;
+    justify-content: space-between; 
+    align-items: center;
+}
+
+
+
+.milieu_haut{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    height: 200px;
+    width: 100%;
+    margin-top: 70px;
+}
+
+.titre{
+
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    flex-direction: column;
+    margin: 10px 50px;
+    color: rgb(0, 0, 0);
+
+    
+}
+
+.titre div{
+    text-shadow:1px 1px 2px rgba(129, 249, 255, 0.76);
+}
+
+
+.gros{
+    font-size: 35px;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.fit{
+    font-size: 20px;
+    padding: 5px 66px;
+}
+
+.encadrant{
+    font-size: 20px;
+    padding: 5px 43px;
+}
+
+
+.espace{
+
+    margin: 5px 10px;
+    height: 170px;
+    width: 220px;
+    background-color: antiquewhite;
+    background-size: cover;
+    background-position:top; 
+    background-position: center;
+
+    border-radius: 10px 10px 10px 10px;
+
+    transition: width 0.5s, height 1s, box-shadow 0.9s, transform 0.5s, border-radius 0.5s;
+
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+}
+
+
+
+
+.espace:hover{
+    box-shadow:-9px 5px 19px rgba(79, 79, 79, 0.95);
+    border-radius: 50px 10px 50px 10px;
+
+}
+
+
+.ecriture{
+    display: flex;
+    color: black;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    margin-top: 30px;
+    text-align: center;
+}
+
+.cas{
+    display: flex;
+    color: black;
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    margin-top: 30px; 
+    text-decoration: underline;
+}
+
+
+
+
+.projet{
+
+    font-family: 'Poppins', sans-serif;
+
+    font-size: 30px;
+    line-height: 3.875rem;
+
+    margin : 0 80px; 
+    text-transform: uppercase;
+    color: rgb(1, 1, 26);
+
+}
+
+
+
+
+.intro{
+    background-color: rgba(244, 244, 244, 0.627);
+    width: 90%;
+    height: 230px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    border-radius: 30px;
+    font-style:italic;
+}
+
+.text-intro{
+    font-size: 20px;
+    font-family: "Poppins", sans-serif;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.texte{
+    text-align: center;
+    width: 90%;
+    font-size: 13px;
+    font-family: "Poppins", sans-serif;
+}

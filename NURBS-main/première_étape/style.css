@@ -1,0 +1,442 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap');
+
+*{
+    padding: 0; 
+    margin: 0; 
+}
+
+body{
+    scroll-behavior: smooth;
+    background-size: cover;
+    background-position:top; 
+    background-repeat: no-repeat;
+
+}
+
+li{
+
+    list-style-type: none;
+}
+
+a{
+    text-decoration: none;
+}
+
+
+.nav{
+    position: fixed; 
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100px;
+    width: 100%;
+    /* background-color: rgba(0, 255, 255, 0); */
+    background-color: rgba(237, 242, 255, 0.416);
+    transition: width 0.5s, height 1s, background-color 0.4s, transform 0.5s;
+    z-index: 100000;
+
+}
+
+.nav li{
+    color : black; 
+}
+
+.nav:hover{
+    background-color: rgba(237, 242, 255, 0.416);
+    box-shadow: 2px 8px 32px rgba(91, 88, 88, 0.21);
+}
+
+.all{
+    
+    /* height: 500vh; */
+    height: auto; 
+    /* background-color: #000651; */
+
+}
+
+.logo{
+    
+    width: 200px;
+    height: 100px;
+
+    margin-left: 20px;
+    margin-bottom: 70px;
+    background-image: url("./asset/Logo_ENSEIRB-MATMECA-Bordeaux_INP.svg.png");  
+    background-size: cover;
+    background-repeat: no-repeat;
+
+}
+
+.milieu{
+    display: flex;
+    flex-direction: row;
+}
+
+.milieu li{
+    font-family: 'Poppins', sans-serif;
+
+}
+
+.milieu .normal{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 70px;
+    margin : 5px 50px; 
+    padding: 8px 9px;
+    border-radius: 20px 0px 20px 0px;
+    transition: width 0.5s, height 1s, background-color 0.4s, transform 0.5s;
+
+}
+
+.particulier{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 70px;
+    margin : 5px 50px; 
+    border-radius: 20px 0px 20px 0px;
+    padding: 8px 18px;
+    transition: width 0.5s, height 1s, background-color 0.9s, transform 0.5s;
+
+    
+}
+
+.milieu ul:hover{
+    background-color: rgba(113, 113, 113, 0.569);
+
+}
+
+.trait{
+    background-color: black;
+    height: 2px;
+    width: 50px;
+}
+
+
+
+.logo_2{
+    display: flex;
+    flex-direction: row;
+}
+
+
+
+.logo_art{
+width: 150px;
+height: 70px;
+margin-left: 30px;
+margin-bottom: 20px;
+background-image: url("./asset/Inr_logo_fr_rouge.png");
+background-size: contain;
+background-position: center;
+background-repeat: no-repeat;
+margin-top: 20px;
+}
+
+
+.titre_partie{
+    padding-top: 70px;
+    font-family: 'Poppins', sans-serif; 
+    font-weight: bold; 
+    width: 100%;  
+    height: 200px; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+    font-size: 40px;  
+    text-transform: uppercase; 
+    color:#000651;
+
+    background-color: eaeaea36; 
+
+    /* background-color: black;  */
+}
+
+.titre_photo{
+    width: 100%;  
+    height: 700px;
+    background-image: url("./asset/OT_coveer.webp");  
+    background-size: cover;
+    background-position:center; 
+    background-repeat: no-repeat;
+
+}
+
+
+.titre_photo-1{
+    width: 100%;  
+    height: 500px;
+    background-image: url("./asset/what-are-nurbs.jpg");  
+    background-size: cover;
+    background-position:center; 
+    background-repeat: no-repeat;
+
+}
+
+.trait-niveau{
+
+    display: flex; 
+    justify-content: center; 
+    align-content: center; 
+    width: 100%;  
+    height: 50px;
+
+}
+
+.trait-intro{
+
+    margin-top: 60px; 
+    width: 50%;  
+    height: 2px;
+    background-color:#00000014;  
+}
+
+
+.first{
+
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    height: 80vh; 
+    width: 100%; 
+
+}
+
+.contenu{
+
+    display: flex; 
+    flex-direction: row; 
+    justify-content: space-around; 
+    height: 900px; 
+    width: 100%; 
+    background-color: rgb(255, 255, 255);  
+
+}
+
+.ecrire{
+
+    display: flex;
+    flex-direction: column;
+    /*background-color: #3c8786;*/
+    align-content: center;
+    justify-content: center; 
+    height: 700px;
+    width: 35%; 
+    font-family: "Poppins", sans-serif; 
+    
+}
+
+.ecrire-1{
+
+    display: flex; 
+    flex-direction: column; 
+    align-content: center;
+    justify-content: center; 
+    height: 700px;
+    width: 90%; 
+    margin-bottom: 10px; /* Ajustez cette valeur selon vos préférences */
+    font-family: "Poppins", sans-serif; 
+}
+
+.ecrire-2{
+
+    display: flex;
+    flex-direction: column;
+    /*background-color: #3c8786;*/
+    align-content: center;
+    justify-content: center; 
+    height: 600px;
+    width: 40%; 
+    font-family: "Poppins", sans-serif; 
+}
+
+.image-1{
+
+    height: 200px;
+    width: 70%; 
+    background-image: url("./images/dask_comp.png");  
+    background-size: cover;
+}
+
+
+
+.image-2{
+
+
+    height: 300px;
+    width: 40%; 
+    background-image: url("./images/numpy.png");  
+    background-size: cover;
+    z-index: 1;
+}
+
+
+.image-3{
+
+
+    height: 500px;
+    width: 40%; 
+    background-image: url("./images/dask_comp.png");  
+    background-size: cover;
+    z-index: 1;
+}
+
+
+
+
+
+
+.trait-fin{
+
+    height: 2px; 
+    width: 100%; 
+    margin-top: 20px; 
+    background-color:#00000014;  
+
+}
+
+
+.bas{
+    
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    /* position: fixed;  */
+    bottom: 0;
+    left: 0;
+    width: 100%; 
+    height: 150px; 
+    background: lightgrey; 
+    box-shadow: -4px -12px 63px -29px rgba(0, 0, 0, 0.4); 
+
+
+}
+
+.suivant{
+
+    font-family: "Poppins", sans-serif;
+    font-size: 17px;
+    margin-left: 550px;
+    color: black;
+    text-decoration: underline;
+}
+
+.fleche{
+    padding-top: 3px;
+    margin-left: 5px;
+
+    height: 20px;
+    width: 20px;
+}
+
+.test{
+    display: flex; 
+}
+
+.gras{
+    font-weight: bold;
+}
+
+
+
+.image-reg{
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: 55%;
+    height: 500px;
+}
+
+.espace-vertical{
+        margin-bottom: 20px; /* Ajoutez la marge souhaitée ici */
+}
+
+
+.Re-1{
+
+    height: auto;
+    width: 85%;
+}
+
+.Re-2{
+
+    height: auto;
+    width: 80%;
+}
+
+.legende{
+    font-family: "Poppins", sans-serif;
+    margin-top: 10px;
+    font-weight: bold;
+    font-size: 18px;}
+
+
+.Ecoulement-lin{
+    margin-left: 70px;
+    height: auto;
+    width: 100%;
+}
+
+.image-reg-2{
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    height: 500px;
+}
+
+.centrer{
+    width: 100%;
+    height: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.centrer-image {
+    text-align: center;
+}
+
+.image-reg-2 img {
+    max-width: 100%;
+    display: block;
+    margin: 0 auto; /* Pour centrer l'image horizontalement */
+}
+
+.legende {
+    text-align: center;
+    font-style: italic;
+    font-size: 14px;
+    margin-top: 10px; /* Marge supérieure pour espacement */
+}
+
+.legende span a {
+    color: #888; /* Couleur du texte gris pour le lien uniquement */
+    text-decoration: none; /* Supprime le soulignement du lien */
+}
+
+.conteneur-image {
+    text-align: center;
+    margin-top: 20px; /* Marge au-dessus de l'image et de la légende */
+}
+
+.legende {
+    font-style: italic;
+    font-size: 14px;
+    margin-top: 10px; /* Espacement entre la légende et la source */
+}
+
+.legende a {
+    color: #888; /* Couleur du texte gris pour le lien de la source */
+    text-decoration: none; /* Supprime le soulignement du lien */
+}

@@ -1,0 +1,425 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap');
+
+*{
+    padding: 0; 
+    margin: 0; 
+}
+
+body{
+    scroll-behavior: smooth;
+    /* background-image: url("./asset/givrage.jpeg");   */
+    background-size: cover;
+    background-position:top; 
+    background-repeat: no-repeat;
+
+}
+
+li{
+
+    list-style-type: none;
+}
+
+a{
+    text-decoration: none;
+}
+
+
+.nav{
+    position: fixed; 
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100px;
+    width: 100%;
+    /* background-color: rgba(0, 255, 255, 0); */
+    background-color: rgba(237, 242, 255, 0.416);
+    transition: width 0.5s, height 1s, background-color 0.4s, transform 0.5s;
+    z-index: 1000;
+
+}
+
+.nav li{
+    color : black; 
+}
+
+.nav:hover{
+    background-color: rgba(237, 242, 255, 0.416);
+    box-shadow: 2px 8px 32px rgba(91, 88, 88, 0.21);
+}
+
+.all{
+    height: auto; 
+    /* height: 500vh; */
+}
+
+.logo{
+    
+    width: 200px;
+    height: 100px;
+
+    margin-left: 20px;
+    margin-bottom: 70px;
+    background-image: url("./asset/Logo_ENSEIRB-MATMECA-Bordeaux_INP.svg.png");  
+    background-size: cover;
+    background-repeat: no-repeat;
+
+}
+
+.milieu{
+    display: flex;
+    flex-direction: row;
+}
+
+.milieu li{
+    font-family: 'Poppins', sans-serif;
+
+}
+
+.milieu .normal{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 70px;
+    margin : 5px 50px; 
+    padding: 8px 9px;
+    border-radius: 20px 0px 20px 0px;
+    transition: width 0.5s, height 1s, background-color 0.4s, transform 0.5s;
+
+}
+
+.particulier{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 70px;
+    margin : 5px 50px; 
+    border-radius: 20px 0px 20px 0px;
+    padding: 8px 18px;
+    transition: width 0.5s, height 1s, background-color 0.9s, transform 0.5s;
+
+    
+}
+
+.milieu ul:hover{
+    background-color: rgba(113, 113, 113, 0.569);
+
+}
+
+.trait{
+    background-color: black;
+    height: 2px;
+    width: 50px;
+}
+
+
+
+.logo_2{
+    display: flex;
+    flex-direction: row;
+}
+
+
+
+.logo_art{
+    width: 150px;
+    height: 70px;
+    margin-left: 30px;
+    margin-bottom: 20px;
+    background-image: url("./asset/Inr_logo_fr_rouge.png");
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin-top: 20px;
+}
+
+
+.titre_partie{
+    padding-top: 70px;
+    font-family: 'Poppins', sans-serif; 
+    font-weight: bold; 
+    width: 100%;  
+    height: 200px; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+    font-size: 40px;  
+    text-transform: uppercase; 
+    color:#000651;
+
+    background-color: eaeaea36; 
+
+    /* background-color: black;  */
+}
+
+.titre_photo{
+    width: 100%;  
+    height: 500px;
+    background-image: url("./asset/code-1839406_1280-1170x536.jpg");  
+    background-size: cover;
+    background-position:center; 
+    background-repeat: no-repeat;
+
+}
+
+
+.titre_photo-1{
+    width: 100%;  
+    height: 500px;
+    background-image: url("./asset/code-1839406_1280-1170x536.jpg");  
+    background-size: cover;
+    background-position:center; 
+    background-repeat: no-repeat;
+
+}
+
+.trait-niveau{
+
+    display: flex; 
+    justify-content: center; 
+    align-content: center; 
+    width: 100%;  
+    height: 50px;
+
+}
+
+.trait-intro{
+
+    margin-top: 60px; 
+    width: 50%;  
+    height: 2px;
+    background-color:#00000014;  
+}
+
+
+.first{
+
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    height: 80vh; 
+    width: 100%; 
+    /* background-color: black;  */
+
+}
+
+.first_1{
+    margin-top: 80px;
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    height: 60vh; 
+    width: 100%; 
+    /* background-color: black;  */
+
+}
+
+.contenu{
+
+    display: flex; 
+    flex-direction: row; 
+    justify-content: space-around; 
+    margin-top: 100px; 
+    height: 500px; 
+    width: 100%; 
+    
+}
+
+.ecrire{
+
+    display: flex; 
+    flex-direction: column; 
+    align-content: center;
+    justify-content: center; 
+    height: 500px;
+    width: 30%; 
+    font-family: "Poppins", sans-serif; 
+}
+
+.image-1{
+    height: 500px;
+    width: 50%; 
+    background-size: cover;
+}
+
+
+
+.image-2{
+    height: 500px;
+    width: 33%; 
+    background-size: cover;
+    z-index: 1;
+}
+
+
+.image-3{
+    height: 500px;
+    width: 33%; 
+    background-size: cover;
+    z-index: 1;
+}
+
+.image-4{
+
+    margin-top: 60px;
+    height: 300px;
+    width: 33%; 
+    background-size: cover;
+    z-index: 1;
+}
+
+
+.image-5{
+    height: 500px;
+    width: 40%; 
+    background-size: cover;
+    z-index: 1;
+    margin-right: 50px;
+}
+
+
+
+.trait-fin{
+
+    height: 2px; 
+    width: 100%; 
+    margin-top: 20px; 
+    background-color:#00000014;  
+
+}
+
+
+
+.bas{
+    
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    /* position: fixed;  */
+    bottom: 0;
+    left: 0;
+    width: 100%; 
+    height: 150px; 
+    background: lightgrey; 
+    box-shadow: -4px -12px 63px -29px rgba(0, 0, 0, 0.4); 
+
+}
+
+.suivant{
+
+    font-family: "Poppins", sans-serif;
+    font-size: 17px;
+    margin-right: 5px;
+    text-decoration: underline;
+    color: black;
+}
+
+.test{
+    display: flex; 
+}
+
+
+.image-10{
+    width: 100%;
+    height: 400px;
+    margin-top: 150px;
+}
+
+.test-10{
+
+    width: 100%;
+    height: 400px;
+}
+
+
+.gras{
+
+    font-weight: bold;
+
+}
+
+
+.legend{
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 500px;
+    height: 350px;
+}
+
+.text-legend{
+    font-family: "Poppins", sans-serif;
+    margin-top: 20px;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.test-1{
+    width: 600px;
+    height: 350px;
+}
+
+
+.test-5{
+    margin-top: 100px;
+    width: 450px;
+    height: 450px;
+}
+
+.test-6{
+    margin-top: 190px;
+    width: 750px;
+    height: 550px;
+    margin-right: 80px;
+}
+
+
+.test-7{
+    margin-top: 190px;
+    width: 750px;
+    height: 550px;
+}
+
+
+
+.bas{
+    
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    /* position: fixed;  */
+    bottom: 0;
+    left: 0;
+    width: 100%; 
+    height: 150px; 
+    background: lightgrey; 
+    box-shadow: -4px -12px 63px -29px rgba(0, 0, 0, 0.4); 
+
+}
+
+.test{
+    display: flex; 
+    flex-direction: row;
+}
+
+
+.fleche{
+    padding-top: 3px;
+    margin-right: 50px;
+    height: 20px;
+    width: 20px;
+
+}
+
+.fleche_gauche{
+    transform: rotate(180deg);
+    margin-top: 3px;
+    margin-right: 10px;
+    height: 20px;
+    width: 20px;
+}
